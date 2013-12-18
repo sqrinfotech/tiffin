@@ -23,7 +23,15 @@ app.configure(function() {
   app.use(express.cookieParser('keyboard cat'));
   app.use(express.session({ cookie: { maxAge: 60000 }}));
   app.use(flash());
+  //app.use(express.bodyParser()); //Added by Raeesaa
 });
+
+
+//app.post() added by Raeesaa
+/*app.post('/users/create', function(req, res){
+	console.log(req.body);
+});*/
+
 
 var mongoose=require('mongoose'),
 	validate = require('mongoose-validator').validate,
