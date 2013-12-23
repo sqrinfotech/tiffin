@@ -88,14 +88,16 @@ exports.create = function(req, res){
         subject: "By form",
         text: "click here : /users/index"
       }, function(error, response){
+
         if(error){
-        		console.log(error);
+          console.log(error);
         }else{
-        		console.log("Message sent: " + response.message);
+          console.log("Message sent: " + response.message);
         };
+
       });
 
-			res.end('Registration successful'); 
+      res.json(dabba);
 		};
 	});
 };

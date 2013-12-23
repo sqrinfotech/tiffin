@@ -8,8 +8,8 @@ var express = require('express')
   , users = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , flash=require('connect-flash')
-  , mongoose=require('mongoose');
+  , flash = require('connect-flash')
+  , mongoose = require('mongoose');
 
 var app = express();
 
