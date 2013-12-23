@@ -10,6 +10,7 @@
     "jade": "*",
     "mongoose": "*",
     "nodemailer": "0.3.29",
-    "mongoose-validator": "~0.2.2"
+    "mongoose-validator": "~0.2.2",
+    "connect-flash": "~0.1.1"
   }
 }
