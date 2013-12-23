@@ -3,15 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
-var http = require('http');
-var path = require('path');
-var flash=require('connect-flash');
-var mongoose=require('mongoose'),
-   Schema=mongoose.Schema,
-   ObjectId=Schema.ObjectId;
+var express = require('express')
+  , routes = require('./routes')
+  , users = require('./routes/user')
+  , http = require('http')
+  , path = require('path')
+  , flash=require('connect-flash')
+  , mongoose=require('mongoose');
 
 var app = express();
 
@@ -35,12 +33,14 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb://localhost/users');
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
-}
+  mongoose.connect('mongodb://localhost/tiffin_development');
+}else{
+  mongoose.connect('mongodb://localhost/tiffin_production');
+};
 
 app.get('/', function(req, res){
   req.flash('info', 'Hello,Welcome To dabba wala Application ');
@@ -48,7 +48,7 @@ app.get('/', function(req, res){
 });
 
 //app.get('/users/:token/confirm',user.confirm);
-app.post('/users/create', user.insert);
+app.post('/users/create', users.create);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

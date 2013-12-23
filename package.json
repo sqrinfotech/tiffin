@@ -9,7 +9,7 @@
     "express": "3.4.4",
     "jade": "*",
     "mongoose": "*",
-    "mongoose-validator":"*",
-    "nodemailer": "0.3.29"
+    "nodemailer": "0.3.29",
+    "mongoose-validator": "~0.2.2"
   }
 }
