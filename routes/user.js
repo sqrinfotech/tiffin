@@ -1,14 +1,20 @@
 
 /*
- * GET users listing.
+ * Users controller and model
+ * TODO
+ *
+ *  1. Seperate the model into a models directory
+ *  2. Follow indentation
+ *  3. Move randomToken() method under utils folder
+ *  4. Move sendEmail method under utils folder
  */
-var flash=require('connect-flash')
+var flash = require('connect-flash')
   , nodemailer = require("nodemailer")
   , crypto = require('crypto')
-  , mongoose=require('mongoose')
-	, validate = require('mongoose-validator').validate
-  , Schema=mongoose.Schema
-  , ObjectId=Schema.ObjectId;
+  , mongoose = require('mongoose')
+  , validate = require('mongoose-validator').validate
+  , Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId;
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -18,33 +24,44 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
    }
 });
 
-var DabbawalaSchema=new Schema({
-	username:{ type: String, unique: true, required: true },
-	password:{ type: String, required: true},
-	name:{ type: String },
-	email:{ type: String, unique: true, required: true },
-	address:String,
-	location:String,
-	loginips:String,
-	confirmationTokan: String,
-	confirmationTokanSentAt:Date,
-	confirmationAt:Date,
-	resetPasswordTokan:String,
-	resetPasswordTokanSentAt:Date,
-	signInCount:Number,
-	createdAt:Date,
-	updatedAt:Date
+var UserSchema = new Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  name: String,
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  address: String,
+  location: String,
+  loginips: String,
+  confirmationTokan:  String,
+  confirmationTokanSentAt: Date,
+  confirmationAt: Date,
+  resetPasswordTokan: String,
+  resetPasswordTokanSentAt: Date,
+  signInCount: Number,
+  createdAt: Date,
+  updatedAt: Date
 });
 
-var Dabbawala=mongoose.model('Dabbawala',DabbawalaSchema);
+var User = mongoose.model('User',UserSchema);
 
 exports.list = function(req, res){
-	res.send("respond with a resource");
+  res.send("respond with a resource");
 };
 
 exports.create = function(req, res){
 
-	var dabba = new Dabbawala({
+  var userDetails = {
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
@@ -58,7 +75,13 @@ exports.create = function(req, res){
     confirmationTokanSentAt: new Date(),
     createdAt:new Date(),
     updatedAt:new Date()
-  });
+  };
+
+  var user = new User(req.body);
+
+  user.confirmationTokan = randomToken();
+  user.createdAt = user.updatedAt = new Date();
+  // use bcrypt to encrypt and decrypt a password
 
     console.log('************************* in insert *******************');
     console.log(req.body.username);
@@ -66,17 +89,17 @@ exports.create = function(req, res){
     console.log(req.body.email);
     console.log('************************* in insert *******************')
 
-	dabba.save(function(err,docs){
+  user.save(function(err,docs){
 
-		if(err){
+    if(err){
 
-			Object.keys(err.errors).forEach(function(key) {
+      Object.keys(err.errors).forEach(function(key) {
 
-				var message = err.errors[key].message;
-				console.log('Validation error for "%s": %s', key, message);
-				res.end('Registration Unsuccessful '); 
+        var message = err.errors[key].message;
+        console.log('Validation error for "%s": %s', key, message);
+        res.end('Registration Unsuccessful '); 
 
-			});
+      });
 
     }else {
 
@@ -97,11 +120,12 @@ exports.create = function(req, res){
 
       });
 
-      res.json(dabba);
-		};
-	});
+      res.json(user);
+    };
+  });
 };
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
 };
+
