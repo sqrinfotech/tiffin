@@ -47,7 +47,7 @@ app.get('/', function(req, res){
   res.render('home', { message: req.flash('info') });
 });
 
-//app.get('/users/:token/confirm',user.confirm);
+app.get('/users', users.index);
 app.post('/users/create', users.create);
 
 http.createServer(app).listen(app.get('port'), function(){

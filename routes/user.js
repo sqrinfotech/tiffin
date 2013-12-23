@@ -64,24 +64,17 @@ var User = mongoose.model('User',UserSchema);
 
 exports.index = function(req, res, next){
   
+  User.find(function (err, users) {
+
+    if(err) next(err);
+    res.json(users);
+
+  });
 };
 
 exports.create = function(req, res, next){
 
-  // var userDetails = {
-  //   name: req.body.name,
-  //   username: req.body.username,
-  //   email: req.body.email,
-  //   location: req.body.city,
-  //   password: req.body.password, // i told you we are not going to save passwords in plain text at all
-  //   address: req.body.address,
-
-  //   //loginips:  where are the ips ?
-  //   confirmationTokenSentAt: new Date(),
-  //   createdAt:new Date(),
-  //   updatedAt:new Date()
-  // };
-
+  console.log(req.body);
   var user = new User(req.body);
 
   user.confirmationToken = randomToken();
@@ -93,12 +86,6 @@ exports.create = function(req, res, next){
 
   user.loginIps.push(req.ip);
 
-  console.log('************************* in insert *******************');
-  console.log(req.body.username);
-  console.log(req.body.password);
-  console.log(req.body.email);
-  console.log('************************* in insert *******************')
-
   user.save(function(err,docs){
 
     if(err){
@@ -109,6 +96,7 @@ exports.create = function(req, res, next){
 
       console.log('registration was successful');
 
+      // trigger sending email
       smtpTransport.sendMail({
         from: "My Name <programtesting10@gmail.com>",
         to: req.body.email,
