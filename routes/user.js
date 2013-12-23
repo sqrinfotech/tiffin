@@ -8,13 +8,13 @@
  *  3. Move randomToken() method under utils folder
  *  4. Move sendEmail method under utils folder
  */
-var flash = require('connect-flash')
+var validate = require('mongoose-validator').validate
   , nodemailer = require("nodemailer")
-  , crypto = require('crypto')
+  , flash = require('connect-flash')
   , mongoose = require('mongoose')
-  , validate = require('mongoose-validator').validate
-  , Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectId;
+  , crypto = require('crypto')
+  , bcrypt = require('bcrypt')
+  , Schema = mongoose.Schema;
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -30,7 +30,11 @@ var UserSchema = new Schema({
     unique: true,
     required: true
   },
-  password: {
+  salt: {
+    type: String,
+    required: true
+  },
+  hash: {
     type: String,
     required: true
   },
@@ -42,64 +46,64 @@ var UserSchema = new Schema({
   },
   address: String,
   location: String,
-  loginips: String,
-  confirmationTokan:  String,
-  confirmationTokanSentAt: Date,
+  loginIps: Array,
+  confirmationToken:  String,
+  confirmationTokenSentAt: Date,
   confirmationAt: Date,
-  resetPasswordTokan: String,
-  resetPasswordTokanSentAt: Date,
-  signInCount: Number,
+  resetPasswordToken: String,
+  resetPasswordTokenSentAt: Date,
+  signInCount: {
+    type: Number,
+    default: 0
+  },
   createdAt: Date,
   updatedAt: Date
 });
 
 var User = mongoose.model('User',UserSchema);
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
+exports.index = function(req, res, next){
+  
 };
 
-exports.create = function(req, res){
+exports.create = function(req, res, next){
 
-  var userDetails = {
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    location: req.body.city,
-    password: req.body.password, // i told you we are not going to save passwords in plain text at all
-    address: req.body.address,
+  // var userDetails = {
+  //   name: req.body.name,
+  //   username: req.body.username,
+  //   email: req.body.email,
+  //   location: req.body.city,
+  //   password: req.body.password, // i told you we are not going to save passwords in plain text at all
+  //   address: req.body.address,
 
-    //loginips:  where are the ips ?
-    signInCount:0, // default this in schema to 0
-    confirmationTokan: randomToken(), // what is this ?
-    confirmationTokanSentAt: new Date(),
-    createdAt:new Date(),
-    updatedAt:new Date()
-  };
+  //   //loginips:  where are the ips ?
+  //   confirmationTokenSentAt: new Date(),
+  //   createdAt:new Date(),
+  //   updatedAt:new Date()
+  // };
 
   var user = new User(req.body);
 
-  user.confirmationTokan = randomToken();
-  user.createdAt = user.updatedAt = new Date();
-  // use bcrypt to encrypt and decrypt a password
+  user.confirmationToken = randomToken();
+  user.confirmationTokenSentAt = user.createdAt = user.updatedAt = new Date();
 
-    console.log('************************* in insert *******************');
-    console.log(req.body.username);
-    console.log(req.body.password);
-    console.log(req.body.email);
-    console.log('************************* in insert *******************')
+  // use bcrypt to encrypt and decrypt a password
+  user.salt = bcrypt.genSaltSync(10);
+  user.hash = bcrypt.hashSync(req.body.password, user.salt);
+
+  user.loginIps.push(req.ip);
+
+  console.log('************************* in insert *******************');
+  console.log(req.body.username);
+  console.log(req.body.password);
+  console.log(req.body.email);
+  console.log('************************* in insert *******************')
 
   user.save(function(err,docs){
 
     if(err){
 
-      Object.keys(err.errors).forEach(function(key) {
-
-        var message = err.errors[key].message;
-        console.log('Validation error for "%s": %s', key, message);
-        res.end('Registration Unsuccessful '); 
-
-      });
+      next(err);
 
     }else {
 
@@ -128,4 +132,3 @@ exports.create = function(req, res){
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
 };
-
