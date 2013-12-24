@@ -117,6 +117,65 @@ exports.create = function(req, res, next){
   });
 };
 
+exports.confirm = function(req, res, next) {
+
+  var username = req.query.username
+    , token = req.query.token;
+
+  User.findOne({confirmationToken: token, username: username},function (err, user) {
+
+    if(err) next(err);
+
+    user.update({confirmationToken: null}, function() {
+
+      if(err) next(err);
+      if (err) {
+        next(err);
+      } else{
+        res.json(user);
+      };
+    });
+
+  });
+};
+
+exports.reset = function(req, res, next){
+  
+  user.resetPasswordToken = randomToken();
+  var email = req.query.email;
+  smtpTransport.sendMail({
+        from: "My Name <programtesting10@gmail.com>",
+        to: req.body.email,
+        subject: "By form",
+        text: "click here :http://localhost:3000/users/confirm?username="+user.username+"&token="+user.confirmationToken
+      }, function(error, response){
+
+        if(error){
+          console.log(error);
+        }else{
+          console.log("Message sent: " + response.message);
+        };
+
+      });
+  console.log(req.query);
+  
+  User.findOne({resetPasswordToken: token},function (err, user) {
+
+    if(err) next(err);
+
+    user.update({confirmationToken: null}, function() {
+
+      if(err) next(err);
+      if (err) {
+        next(err);
+      } else{
+        res.json(user);
+      };
+    });
+
+  });
+};
+
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
 };
