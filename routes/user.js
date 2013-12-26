@@ -7,6 +7,7 @@
  *  2. Follow indentation
  *  3. Move randomToken() method under utils folder
  *  4. Move sendEmail method under utils folder
+ // user.update({$push: {loginIps: req.ip}},function(err,user){});
  */
 var validate = require('mongoose-validator').validate
   , nodemailer = require("nodemailer")
@@ -27,7 +28,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 var UserSchema = new Schema({
   username: {
     type: String,
-    unique: true,
+    //unique: true,
     required: true
   },
   salt: {
@@ -41,7 +42,7 @@ var UserSchema = new Schema({
   name: String,
   email: {
     type: String,
-    unique: true,
+    //unique: true,
     required: true
   },
   address: String,
@@ -97,11 +98,11 @@ exports.create = function(req, res, next){
       console.log('registration was successful');
 
       // trigger sending email
-      smtpTransport.sendMail({
+     smtpTransport.sendMail({
         from: "My Name <programtesting10@gmail.com>",
         to: req.body.email,
         subject: "By form",
-        text: "click here : /users/index"
+        text: "click here :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
       }, function(error, response){
 
         if(error){
@@ -123,11 +124,11 @@ exports.confirm = function(req, res, next) {
     , token = req.query.token;
 
   User.findOne({confirmationToken: token, username: username},function (err, user) {
-
+    user.update({updatedAt: new Date()},function(err,user){});
     if(err) next(err);
 
     user.update({confirmationToken: null}, function() {
-
+      user.update({confirmationAt: new Date()},function(err,user){});
       if(err) next(err);
       if (err) {
         next(err);
@@ -139,42 +140,69 @@ exports.confirm = function(req, res, next) {
   });
 };
 
-exports.reset = function(req, res, next){
+exports.reset = function(req, res, next) {
   
-  user.resetPasswordToken = randomToken();
+  var query;
+  User.findOne(query, function(err, user) { 
+    var resetToken=randomToken();
+    user.update({resetPasswordToken: resetToken}, function() {
+      
+      if(err) next(err);
+      if (err) {
+        next(err);
+      } else{
+        user.update({resetPasswordTokenSentAt: new Date()},function(err,user){});
+        smtpTransport.sendMail({
+          from: "My Name <programtesting10@gmail.com>",
+          to: user.email,
+          subject: "By form",
+          text: "RESET PASSWORD MSG *****  :http://localhost:3000/users/resetnew?resetToken="+resetToken
+        }, function(error, response){});
+        res.json(user);
+      };
+    });
+  });
+};
+
+exports.resetnew = function(req, res, next) {
+
+  var resetToken = req.query.resetToken;
+  User.findOne({resetPasswordToken: resetToken},function (err, user) {
+    if(err) next(err);
+    user.update({resetPasswordToken: null}, function() {
+      if(err) next(err);
+      if (err) {
+        next(err);
+      } else{
+        res.redirect('/newpassword?email='+user.email);
+      };
+    });
+
+  });
+};
+
+exports.newpassword = function(req, res, next){
+
+  var npassword = req.query.npassword;
+  var cpassword = req.query.cpassword;
   var email = req.query.email;
-  smtpTransport.sendMail({
-        from: "My Name <programtesting10@gmail.com>",
-        to: req.body.email,
-        subject: "By form",
-        text: "click here :http://localhost:3000/users/confirm?username="+user.username+"&token="+user.confirmationToken
-      }, function(error, response){
-
-        if(error){
-          console.log(error);
-        }else{
-          console.log("Message sent: " + response.message);
+  User.findOne({email: email},function (err, user) {
+    if(npassword == cpassword){
+      slt = bcrypt.genSaltSync(10);
+      hsh = bcrypt.hashSync(npassword,slt);
+      user.update({salt: slt,hash: hsh }, function() {
+        user.update({updatedAt: new Date()},function(err,user){});
+        if(err) next(err);
+        if (err) {
+          next(err);
+        } else{
+          res.redirect('Password change');
         };
-
       });
-  console.log(req.query);
-  
-  User.findOne({resetPasswordToken: token},function (err, user) {
-
-    if(err) next(err);
-
-    user.update({confirmationToken: null}, function() {
-
-      if(err) next(err);
-      if (err) {
-        next(err);
-      } else{
-        res.json(user);
-      };
-    });
-
+    };
   });
 };
+
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');

@@ -13,12 +13,6 @@ var express = require('express')
 
 var app = express();
 
-app.configure(function() {
-  app.use(express.cookieParser('keyboard cat'));
-  app.use(express.session({ cookie: { maxAge: 60000 }}));
-  app.use(flash());
-});
-
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -42,15 +36,17 @@ if ('development' == app.get('env')) {
   mongoose.connect('mongodb://localhost/tiffin_production');
 };
 
-app.get('/', function(req, res){
-  req.flash('info', 'Hello,Welcome To dabba wala Application ');
-  res.render('home', { message: req.flash('info') });
-});
-
 app.get('/users', users.index);
+
 app.post('/users/create', users.create);
+
 app.post('/users/confirm', users.confirm);
-app.post('/users/reset', users.reset);
+
+app.get('/users/reset', users.reset);
+app.post('/users/resetnew', users.resetnew);
+
+app.get('/newpassword', routes.newpassword);
+app.post('/users/newpassword', users.newpassword);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
