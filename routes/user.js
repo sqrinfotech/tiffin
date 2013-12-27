@@ -24,6 +24,43 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
    }
 });
 
+//Validations added by Raeesaa
+
+var nameValidator = [
+  validate({message: 'Name should not be empty'},'notNull'), 
+  validate({message: 'Name must contain only letters'}, 'isAlpha')
+];
+
+var emailValidator = [
+  validate({message: 'Email should not be empty'}, 'notNull'), 
+  validate({message: 'Invalid email format'}, 'isEmail')
+];
+
+var usernameValidator = [
+  validate({message: 'Username should not be empty'},'notNull'), 
+  validate({message: 'Username should be between 2 and 20 characters'}, 'len', 2, 20),
+  validate({message: 'Username must contain only aplhanumeric characters or underscores'}, 'regex', /^[a-zA-Z0-9_]]*$/)
+];
+
+var passwordValidator = [
+  validate({message: 'Password should not be empty'}, 'notNull'), 
+  validate({message: 'Password should be minimum 8 characters long'}, 'len', 8)
+];
+
+var addressValidator = [
+  validate({message: 'Address should not be empty'}, 'notNull')
+];
+
+var zipCodeValidator = [
+  validate({message: 'Zip code should not be empty'}, 'notNull'), 
+  validate({message: 'Zip code should contain only numbers'}, 'isNumeric')
+];
+
+var locationValidator = [
+  validate({message: 'Location should not be empty'}, 'notNull'),
+  validate({message: 'Location should contain only letters'}, 'isAlpha')
+];
+
 var UserSchema = new Schema({
   username: {
     type: String,
@@ -53,7 +90,10 @@ var UserSchema = new Schema({
     type: String,
     validate: addressValidator
   },
-  location: String,
+  location: {
+    type: String,
+    validate: locationValidator
+  },
   loginIps: Array,
   confirmationToken:  String,
   confirmationTokenSentAt: Date,
@@ -67,41 +107,6 @@ var UserSchema = new Schema({
   createdAt: Date,
   updatedAt: Date
 });
-
-//Validations added by Raeesaa
-
-var nameValidator = validate[validate('notNull'), validate('isAlpha')];
-
-var emailValidator = validate[validate('notNull'), validate('isEmail')];
-
-var usernameValidator = validate[validate('notNull'), 
-                        validate({message: 'Username should be between 2 and 20 characters'}, 'len', 2, 20),
-                        validate({message: 'Username must contain only aplhanumeric characters or underscores'}, 'regex', /^[a-zA-Z0-9_]]*$/)];
-
-var passwordValidator = validate[validate('notNull'), validate({message: "Password should be minimum 8 characters long"}, 'len', 8)];
-
-var addressValidator = validate[validate('notNull')];
-
-var zipCodeValidator = validate[validate('notNull'), validate('isNumeric')];
-
-/*UserSchema.path('name').validate(isEmpty(val), 'Name is required');
-
-UserSchema.path('username').validate(isEmpty(val), 'Username is required');
-
-UserSchema.path('password').validate(isEmpty(val), 'Password is required');
-
-UserSchema.path('email').validate(isEmpty(val), 'Email ID is required');
-
-UserSchema.path('address').validate(isEmpty(val), 'Address is required');
-
-UserSchema.path('zipcode').validate(isEmpty(val), 'ZipCode is required');
-
-
-UserSchema.path('username').validate(message: "Username should be between 2 and 20 characters"}, 'len', 2, 20);
-
-UserSchema.path('username').validate(/^[a-zA-Z0-9_]]*$/
-  , 'Username must contain only aplhanumeric characters or underscores');
-*/
 
 
 var User = mongoose.model('User',UserSchema);
@@ -135,7 +140,7 @@ exports.create = function(req, res, next){
     if(err){
 
       next(err);
-
+      
     }else {
 
       console.log('registration was successful');
@@ -164,13 +169,3 @@ exports.create = function(req, res, next){
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
 };
-
-/*var isEmpty = function(val){
-  if(val == null){
-    return false;
-  }
-  else{
-    return true;
-  }
-
-};*/
