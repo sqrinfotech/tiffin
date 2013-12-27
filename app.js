@@ -8,7 +8,7 @@ var express = require('express')
   , users = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , flash = require('connect-flash')
+  , connect = require('connect')
   , mongoose = require('mongoose');
 
 var app = express();
@@ -18,6 +18,15 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+var MemoryStore = require('connect').session.MemoryStore;
+app.use(express.cookieParser());
+app.use(express.session({ 
+    secret: "keyboard cat", 
+    store: new MemoryStore({ 
+        reapInterval: 60000 
+    })
+}));
+
 app.use(express.bodyParser());
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -26,7 +35,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // development only
 if ('development' == app.get('env')) {
@@ -44,9 +52,10 @@ app.post('/users/confirm', users.confirm);
 
 app.get('/users/reset', users.reset);
 app.post('/users/resetnew', users.resetnew);
-
 app.get('/newpassword', routes.newpassword);
 app.post('/users/newpassword', users.newpassword);
+
+app.get('/users/login', users.login);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

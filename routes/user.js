@@ -15,7 +15,7 @@ var validate = require('mongoose-validator').validate
   , mongoose = require('mongoose')
   , crypto = require('crypto')
   , bcrypt = require('bcrypt')
-  , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema; 
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -120,14 +120,14 @@ exports.create = function(req, res, next){
 
 exports.confirm = function(req, res, next) {
 
-  var username = req.query.username
-    , token = req.query.token;
+  var token = req.query.token;
+  var username = req.query.username;
 
   User.findOne({confirmationToken: token, username: username},function (err, user) {
     user.update({updatedAt: new Date()},function(err,user){});
     if(err) next(err);
 
-    user.update({confirmationToken: null}, function() {
+      user.update({confirmationToken: null}, function() {
       user.update({confirmationAt: new Date()},function(err,user){});
       if(err) next(err);
       if (err) {
@@ -203,6 +203,41 @@ exports.newpassword = function(req, res, next){
   });
 };
 
+exports.login = function(req, res, next) {
+
+  var username = req.query.username;
+  var password = req.query.password;
+
+  User.findOne({username: username},function (err, user) {
+    if(err) next(err);
+
+     if (username == req.session.name){
+        console.log('Session Maintainging ************************* : '+req.session.name);
+        res.json(user); 
+      } else{
+        var result = bcrypt.compareSync(password, user.hash);
+        console.log('Password Match ************************* : '+result);
+
+        if(result) {
+          User.findOne({confirmationToken: null},function (err, user) {
+            if(err) next(err);
+
+              req.session.name = req.query.username;
+
+              console.log('Session ************************* : '+req.session.name);
+              user.update({$push: {loginIps: req.ip}},function(err,user){});
+              var count=user.signInCount+1;
+              user.update({signInCount: count},function(err,user){});
+
+              res.json(user); 
+          }); 
+        } else {
+            console.log('Password Not Matching'+result);
+           next(err);
+        };
+      };
+  });
+};
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
