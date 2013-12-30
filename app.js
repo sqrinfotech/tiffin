@@ -48,14 +48,21 @@ app.get('/users', users.index);
 
 app.post('/users/create', users.create);
 
-app.post('/users/confirm', users.confirm);
+app.get('/users/confirm', users.confirm);
 
 app.get('/users/reset', users.reset);
-app.post('/users/resetnew', users.resetnew);
+app.get('/users/resetnew', users.resetnew);
 app.get('/newpassword', routes.newpassword);
 app.post('/users/newpassword', users.newpassword);
 
-app.get('/users/login', users.login);
+app.post('/users/login', users.login);
+
+app.get('/users/:id/show',users.currentuser,users.show);
+
+app.get('/users/:id/delete',users.currentuser,users.delete);
+
+//app.get('/users/:id/edit',users.currentuser,user.edit);
+//app.put('/users/:id/edit',users.currentuser,users.update);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
