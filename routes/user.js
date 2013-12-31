@@ -24,6 +24,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
        pass: "programtesting"
    }
 });
+var sess;
 
 var UserSchema = new Schema({
   username: {
@@ -76,19 +77,9 @@ exports.index = function(req, res, next){
 exports.currentuser = function(req, res, next) {
   
   var username = req.cookies.username;
-  //var id = req.cookies.id;
+  var id = req.cookies.id;
 
-  // console.log(req.cookies);
-  // console.log('req.signedCookies ************');
-  // console.log(req.signedCookies);
-  // console.log('req.session ************');
-  // console.log(req.session);
-  // console.log('req.headers ************');
-  // console.log(req.headers.cookie);
-
-  // console.log(req.headers);
-  console.log ('cookie  : ' + username + ' Session : '+req.session.name);
-  if (username == req.session.name){
+  if (username == sess){
     console.log('session is correct');
     next();
   } else{
@@ -103,7 +94,6 @@ exports.create = function(req, res, next){
 
   user.confirmationToken = randomToken();
   user.confirmationTokenSentAt = user.createdAt = user.updatedAt = new Date();
-
   // use bcrypt to encrypt and decrypt a password
   user.salt = bcrypt.genSaltSync(10);
   user.hash = bcrypt.hashSync(req.body.password, user.salt);
@@ -145,7 +135,7 @@ exports.confirm = function(req, res, next) {
       if (err) {
         next(err);
       } else{
-        res.send('Your Account Is confirmed');
+        res.send('Your Account has confirmed');
       };
     });
 
@@ -223,10 +213,7 @@ exports.login = function(req, res, next) {
   User.findOne({username: username},function (err, user) {
     if(err) next(err);
 
-      // if (username === req.session.name){
-        var a = null;
-      if (a){
-        console.log('Session Maintainging ************************* : '+req.session.name);
+      if (username === req.session.name){
         res.json(user); 
       } else{
         
@@ -237,19 +224,21 @@ exports.login = function(req, res, next) {
             if(err) next(err);
 
               req.session.name = req.body.username;
-              console.log('Session ************************* : '+req.session.name);
               user.update({$push: {loginIps: req.ip}},function(err,user){});
               var count=user.signInCount+1;
               user.update({signInCount: count},function(err,user){});
-
-              res.json(user); 
+              res.json(user);
           }; 
         } else {
             res.send('Password Wrong');
         };
-        console.log('End   Session  ************************* : '+req.session.name);
+        next();
       };
   });
+};
+
+exports.sess = function(req, res, next) {
+  sess=req.session.name;
 };
 
 exports.show = function(req, res){
@@ -272,31 +261,28 @@ exports.delete= function(req, res){
   });
 };
 
-// exports.edit= function(req, res){
-//   User.findById(req.params.id, function (err,user){
-//     if (err){
-//       throw err;
-//     } else{
-//       res.render('users/edit', {user: student});
-//     };
-//   });
-// };
+exports.update= function(req, res){
+  var slt = bcrypt.genSaltSync(10);
+  var hsh = bcrypt.hashSync(req.body.password, slt);
 
-// exports.update= function(req, res){
-//   Students.findByIdAndUpdate(req.params.id,
-//     {
-//       name: {first:req.body.sfname,last:req.body.slname},
-//       age:req.body.age,
-//       contact:req.body.phone,
-//       email:req.body.email,
-//         course:req.body.course,
-//         fee:req.body.fee,
-//         doa:req.body.doa
-//       },function(err,docs){
-//       if(err) res.json(err);
-//       res.redirect('/index');
-//   });
-// };
+  User.findByIdAndUpdate(req.params.id,{
+    username:req.body.username,
+    name: req.body.name,
+    email:req.body.email,
+    address: req.body.address,
+    location : req.body.city,
+    salt : slt,
+    hash : hsh,
+    updatedAt : new Date()
+  },function(err,docs){
+      if (err){
+        throw err;
+      } else{
+        res.send('Your Account has Updated');
+      };
+    }
+  );
+};
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
