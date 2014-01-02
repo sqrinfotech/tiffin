@@ -57,7 +57,7 @@ var UserSchema = new Schema({
     default: 0
   },
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
 });
 
 var User = mongoose.model('User',UserSchema);
@@ -212,7 +212,7 @@ exports.login = function(req, res, next) {
   User.findOne({username: username},function (err, user) {
     if(err) next(err);
 
-      if (username === req.session.name){
+      if (user === req.session.user){
         res.json(user); 
       } else{
         

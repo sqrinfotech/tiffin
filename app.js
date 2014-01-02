@@ -10,7 +10,7 @@ var express = require('express')
   , path = require('path')
   , connect = require('connect')
   , mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(connect);
+
 var app = express();
 
 // all environments
@@ -18,14 +18,6 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// var MemoryStore = require('connect').session.MemoryStore;
-// app.use(express.cookieParser());
-// app.use(express.session({ 
-//     secret: "keyboard cat", 
-//     store: new MemoryStore({ 
-//         reapInterval: 60000 
-//     })
-// }));
 
 app.use(express.bodyParser());
 app.use(express.favicon());
@@ -50,7 +42,7 @@ if ('development' == app.get('env')) {
 };
 
 
-
+var MongoStore = require('connect-mongo')(connect);
 app.use(express.cookieParser());
 app.use(express.session({
     secret: '5234523451',
