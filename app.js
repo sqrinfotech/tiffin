@@ -10,7 +10,7 @@ var express = require('express')
   , path = require('path')
   , connect = require('connect')
   , mongoose = require('mongoose');
-
+var MongoStore = require('connect-mongo')(connect);
 var app = express();
 
 // all environments
@@ -18,14 +18,14 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-var MemoryStore = require('connect').session.MemoryStore;
-app.use(express.cookieParser());
-app.use(express.session({ 
-    secret: "keyboard cat", 
-    store: new MemoryStore({ 
-        reapInterval: 60000 
-    })
-}));
+// var MemoryStore = require('connect').session.MemoryStore;
+// app.use(express.cookieParser());
+// app.use(express.session({ 
+//     secret: "keyboard cat", 
+//     store: new MemoryStore({ 
+//         reapInterval: 60000 
+//     })
+// }));
 
 app.use(express.bodyParser());
 app.use(express.favicon());
@@ -39,10 +39,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
-  mongoose.connect('mongodb://localhost/tiffin_development');
+   var connection= mongoose.connect('mongodb://localhost/tiffin_development',{
+    server: {
+      poolSize: 3
+    }
+  }
+  );
 }else{
   mongoose.connect('mongodb://localhost/tiffin_production');
 };
+
+
+
+app.use(express.cookieParser());
+app.use(express.session({
+    secret: '5234523451',
+    store: new MongoStore({
+      mongoose_connection: connection.connections[0],
+      clear_interval: 3600
+    })
+  }));
 
 app.get('/users', users.index);
 
@@ -55,7 +71,7 @@ app.get('/users/resetnew', users.resetnew);
 app.get('/newpassword', routes.newpassword);
 app.post('/users/newpassword', users.newpassword);
 
-app.post('/users/login', users.login,users.sess);
+app.post('/users/login', users.login);
 
 app.get('/users/:id/show',users.currentuser,users.show);
 

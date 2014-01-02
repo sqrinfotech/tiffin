@@ -7,7 +7,6 @@
  *  2. Follow indentation
  *  3. Move randomToken() method under utils folder
  *  4. Move sendEmail method under utils folder
- // user.update({$push: {loginIps: req.ip}},function(err,user){});
  */
 var validate = require('mongoose-validator').validate
   , nodemailer = require("nodemailer")
@@ -24,7 +23,6 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
        pass: "programtesting"
    }
 });
-var sess;
 
 var UserSchema = new Schema({
   username: {
@@ -78,8 +76,9 @@ exports.currentuser = function(req, res, next) {
   
   var username = req.cookies.username;
   var id = req.cookies.id;
-
-  if (username == sess){
+  
+  console.log('In CurrUser SEssion    :   '+req.session.user.name)
+  if (username == req.session.user.name){
     console.log('session is correct');
     next();
   } else{
@@ -223,7 +222,7 @@ exports.login = function(req, res, next) {
           if(!user.confirmationToken) {
             if(err) next(err);
 
-              req.session.name = req.body.username;
+              req.session.user = user;
               user.update({$push: {loginIps: req.ip}},function(err,user){});
               var count=user.signInCount+1;
               user.update({signInCount: count},function(err,user){});
@@ -232,13 +231,8 @@ exports.login = function(req, res, next) {
         } else {
             res.send('Password Wrong');
         };
-        next();
       };
   });
-};
-
-exports.sess = function(req, res, next) {
-  sess=req.session.name;
 };
 
 exports.show = function(req, res){
