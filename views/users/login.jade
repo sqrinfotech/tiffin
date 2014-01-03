@@ -1,18 +1,29 @@
+extends ../layout
 
 block content
   .container
     center
-        h3 Change Your Password
+        h3 Login User
       form.well.form-horizontal(action='/users/login', method='post')
         .form-group
-          label.col-sm-3.control-label(for='username') username :
+          label.col-sm-3.control-label(for='login') Username/E-Mail :
           .col-sm-7
-            input#npassword.form-control(type='text',name='username')
+            input#login.form-control(type='text',name='login')
 
         .form-group
           label.col-sm-3.control-label(for='password') Password :
           .col-sm-7
-            input#cpassword.form-control(type='password',name='password')
+            input#password.form-control(type='password',name='password')
 
-        .form-group
-          button.btn.btn-primary.col-sm-2(type='submit') Submit
+        center
+          .form-group
+            button.btn.btn-primary.col-sm-2(type='submit') Submit
+
+          .form-group
+            a(href='#') Sign Up 
+
+          .form-group
+            a(href='/resetpassword') Forget your Password?
+
+          .form-group
+            a(href='/newconfirm') Send Confirmation Email  

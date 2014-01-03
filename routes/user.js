@@ -74,16 +74,15 @@ exports.index = function(req, res, next){
 
 exports.currentuser = function(req, res, next) {
   
-  // var username = req.cookies.username;
-  // var id = req.cookies.id;
-  var username = 'Puja';
+  var username = req.cookies.username;
+  var id = req.cookies.id;
   
   console.log('In CurrUser SEssion    :   '+req.session.user.name)
   if (username == req.session.user.name){
     console.log('session is correct');
     next();
   } else{
-    res.send('Please Login');
+    res.json('Please Login');
    };
 };
 
@@ -111,21 +110,35 @@ exports.create = function(req, res, next){
   user.save(function(err,docs){
 
     if(err){
-
       next(err);
-
     }else {
-
-      // trigger sending email
-     smtpTransport.sendMail({
-        from: "Tiffin <programtesting10@gmail.com>",
-        to: req.body.email,
-        subject: "Confirmation Of Account",
-        text: "click here for confirm your account :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
-      }, function(error, response){});
-      res.json(user);
+      next();
     };
   });
+};
+
+exports.sendEmail = function(req, res){
+  var login = req.body.email;
+  var query = {$or: [{username: login}, {email: login}]};
+  User.findOne(query,function (err, user) {
+    console.log(user);
+    smtpTransport.sendMail({
+          from: "Tiffin <programtesting10@gmail.com>",
+          to: user.email,
+          subject: "Confirmation Of Account",
+          text: "click here for confirm your account :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
+    }, function (error, response){
+      if (error) {
+        next(error);
+      } else{
+        res.json('Confirmation Link send to Your Email');
+      };
+    });
+  });
+};
+
+exports.newConfirm = function(req, res){
+  res.render('users/newConfirm');
 };
 
 exports.confirm = function(req, res, next) {
@@ -137,26 +150,32 @@ exports.confirm = function(req, res, next) {
     user.update({updatedAt: new Date()},function(err,user){});
     if(err) next(err);
 
-      user.update({confirmationToken: null}, function() {
-      user.update({confirmationAt: new Date()},function(err,user){});
+      user.update({$set: {confirmationToken: null}}, function() {
+      user.update({$set: {confirmationAt: new Date()}},function(err,user){});
       if(err) next(err);
       if (err) {
         next(err);
       } else{
-        res.send('Your Account has confirmed');
+        res.json('Your Account has confirmed');
       };
     });
 
   });
 };
 
+exports.resetPassword = function(req, res){
+  res.render('users/resetPassword');
+};
+
 exports.reset = function(req, res, next) {
   
-  var query;
+  var login = req.body.email;
+  var query = {$or: [{username: login}, {email: login}]};
+  
   User.findOne(query, function(err, user) { 
     var resetToken=randomToken();
     user.update({resetPasswordToken: resetToken}, function() {
-      
+       console.log('reset email : '+user.email)
       if(err) next(err);
       if (err) {
         next(err);
@@ -167,14 +186,14 @@ exports.reset = function(req, res, next) {
           to: user.email,
           subject: "Reset Password",
           text: "Click here for reset your password :http://localhost:3000/users/resetnew?resetToken="+resetToken
-        }, function(error, response){});
-        res.json(user);
+        }, function ( error, response){});
+        res.json('Reset Password Instruction send to Your Email');
       };
     });
   });
 };
 
-exports.resetnew = function(req, res, next) {
+exports.resetNew = function(req, res, next) {
 
   var resetToken = req.query.resetToken;
   User.findOne({resetPasswordToken: resetToken},function (err, user) {
@@ -191,11 +210,16 @@ exports.resetnew = function(req, res, next) {
   });
 };
 
-exports.newpassword = function(req, res, next){
+exports.newPassword = function(req, res){
+  var email = req.query.email;
+  res.render('users/newPassword',{email: email});
+};
+
+exports.newPasswordSave = function(req, res, next){
 
   var npassword = req.body.npassword;
   var cpassword = req.body.cpassword;
-  var email = req.query.email;
+  var email = req.body.email;
   User.findOne({email: email},function (err, user) {
     if(npassword == cpassword){
       slt = bcrypt.genSaltSync(10);
@@ -206,12 +230,14 @@ exports.newpassword = function(req, res, next){
         if (err) {
           next(err);
         } else{
-          res.redirect('Password change');
+          res.json('Password change');
         };
       });
     };
   });
 };
+
+
 
 exports.login = function(req, res, next) {
   res.render('users/login');
@@ -219,23 +245,18 @@ exports.login = function(req, res, next) {
 
 exports.authenticate = function(req, res, next) {
 
-  var username = req.body.username;
+  var username = req.body.login;
   var password = req.body.password;
 
-  User.findOne({username: username}, function (err, user) {
+  var query = {username: username};
+
+  User.findOne(query, function (err, user) {
     if(err) next(err);
-<<<<<<< Updated upstream
 
       if (user == req.session.user){
         res.json(user);
       } else{
         
-=======
-      // if (user === req.session){
-      //   console.log('MAINTAING ...................')
-      //   res.json(user); 
-      // } else{
->>>>>>> Stashed changes
         var result = bcrypt.compareSync(password, user.hash);
 
         if(result) {
@@ -243,17 +264,15 @@ exports.authenticate = function(req, res, next) {
             if(err) next(err);
 
               req.session.user = user;
-              //console.log(' After in SESSION  :   '+req.session.user.name);
-              console.log('MAIN')
               user.update({$push: {loginIps: req.ip}},function(err,user){});
-              var count=user.signInCount+1;
+              var count=user.signInCount+1; //check this
               user.update({signInCount: count},function(err,user){});
               res.json(user);
           }; 
         } else {
-            res.send('Password Wrong');
+            res.json('Password Wrong'); //change to json
         };
-      //};
+      };
   });
 };
 
@@ -272,7 +291,7 @@ exports.delete= function(req, res){
     if (err){
       throw err;
     } else{
-      res.send('Your Account has Deleted');
+      res.json('Your Account has Deleted');
     };
   });
 };
@@ -294,7 +313,7 @@ exports.update= function(req, res){
       if (err){
         throw err;
       } else{
-        res.send('Your Account has Updated');
+        res.json('Your Account has Updated');
       };
     }
   );

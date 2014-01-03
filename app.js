@@ -9,14 +9,11 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , connect = require('connect')
-<<<<<<< Updated upstream
   , mongoose = require('mongoose')
-  , MongoStore = require('connect-mongo')(connect);
-
-=======
+  , MongoStore = require('connect-mongo')(connect)
   , mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(connect);
->>>>>>> Stashed changes
+
 var app = express();
 
 // all environments
@@ -32,7 +29,7 @@ if ('development' == app.get('env')) {
   var connection = mongoose.connect('mongodb://localhost/tiffin_production');
 };
 
-<<<<<<< Updated upstream
+
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -44,10 +41,6 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
-=======
-app.use(express.cookieParser());
-app.use(express.session({
->>>>>>> Stashed changes
     secret: '5234523451',
     store: new MongoStore({
       mongoose_connection: connection.connections[0],
@@ -62,17 +55,20 @@ app.use(express.session({
 });
 
 app.get('/users', users.index);
-app.post('/users/create', users.create);
+app.post('/users/create', users.create,users.sendEmail);
 app.get('/users/confirm', users.confirm);
-app.get('/users/reset', users.reset);
-app.get('/users/resetnew', users.resetnew);
-app.get('/newpassword', routes.newpassword);
-app.post('/users/newpassword', users.newpassword);
+app.get('/newconfirm', users.newConfirm);
+app.post('/users/newconfirm',users.sendEmail);
+
+app.get('/resetpassword', users.resetPassword);
+app.post('/users/resetpassword', users.reset);
+app.get('/users/resetnew', users.resetNew);
+app.get('/newpassword', users.newPassword);
+app.post('/users/newpassword', users.newPasswordSave);
 
 app.get('/trial', users.isLogged, users.trial);
 
 app.get('/login', users.login);
-// app.post('/users/login', users.isLogged, users.authenticate);
 app.post('/users/login', users.authenticate);
 
 app.get('/users/:id/show',users.currentuser,users.show);
