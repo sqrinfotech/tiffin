@@ -12,9 +12,15 @@
     "nodemailer": "0.3.29",
     "mongoose-validator": "~0.2.2",
     "connect-flash": "~0.1.1",
+<<<<<<< Updated upstream
     "bcrypt": "~0.7.7",
     "connect-mongo": "~0.4.0",
     "connect": "~2.12.0",
     "less-middleware": "~0.1.14"
+=======
+    "connect-mongoose": "*",
+    "connect-mongo": "*",
+    "bcrypt": "~0.7.7"
+>>>>>>> Stashed changes
   }
 }

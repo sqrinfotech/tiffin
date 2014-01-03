@@ -74,8 +74,9 @@ exports.index = function(req, res, next){
 
 exports.currentuser = function(req, res, next) {
   
-  var username = req.cookies.username;
-  var id = req.cookies.id;
+  // var username = req.cookies.username;
+  // var id = req.cookies.id;
+  var username = 'Puja';
   
   console.log('In CurrUser SEssion    :   '+req.session.user.name)
   if (username == req.session.user.name){
@@ -223,11 +224,18 @@ exports.authenticate = function(req, res, next) {
 
   User.findOne({username: username}, function (err, user) {
     if(err) next(err);
+<<<<<<< Updated upstream
 
       if (user == req.session.user){
         res.json(user);
       } else{
         
+=======
+      // if (user === req.session){
+      //   console.log('MAINTAING ...................')
+      //   res.json(user); 
+      // } else{
+>>>>>>> Stashed changes
         var result = bcrypt.compareSync(password, user.hash);
 
         if(result) {
@@ -235,6 +243,8 @@ exports.authenticate = function(req, res, next) {
             if(err) next(err);
 
               req.session.user = user;
+              //console.log(' After in SESSION  :   '+req.session.user.name);
+              console.log('MAIN')
               user.update({$push: {loginIps: req.ip}},function(err,user){});
               var count=user.signInCount+1;
               user.update({signInCount: count},function(err,user){});
@@ -243,7 +253,7 @@ exports.authenticate = function(req, res, next) {
         } else {
             res.send('Password Wrong');
         };
-      };
+      //};
   });
 };
 

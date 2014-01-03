@@ -9,9 +9,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , connect = require('connect')
+<<<<<<< Updated upstream
   , mongoose = require('mongoose')
   , MongoStore = require('connect-mongo')(connect);
 
+=======
+  , mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(connect);
+>>>>>>> Stashed changes
 var app = express();
 
 // all environments
@@ -27,6 +32,7 @@ if ('development' == app.get('env')) {
   var connection = mongoose.connect('mongodb://localhost/tiffin_production');
 };
 
+<<<<<<< Updated upstream
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -38,6 +44,10 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
+=======
+app.use(express.cookieParser());
+app.use(express.session({
+>>>>>>> Stashed changes
     secret: '5234523451',
     store: new MongoStore({
       mongoose_connection: connection.connections[0],
