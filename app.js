@@ -9,61 +9,61 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , connect = require('connect')
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , MongoStore = require('connect-mongo')(connect);
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
-
-app.use(express.bodyParser());
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-
-// development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
-   var connection= mongoose.connect('mongodb://localhost/tiffin_development',{
+   var connection = mongoose.connect('mongodb://localhost/tiffin_development',{
     server: {
       poolSize: 3
     }
-  }
-  );
+  });
 }else{
-  mongoose.connect('mongodb://localhost/tiffin_production');
+  var connection = mongoose.connect('mongodb://localhost/tiffin_production');
 };
 
-
-var MongoStore = require('connect-mongo')(connect);
-app.use(express.cookieParser());
-app.use(express.session({
+app.configure(function() {
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.compress());
+  app.use(express.methodOverride());
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({
     secret: '5234523451',
     store: new MongoStore({
       mongoose_connection: connection.connections[0],
       clear_interval: 3600
     })
   }));
+  app.use(app.router);
+  app.use(require('less-middleware')({ 
+    src: path.join(__dirname, 'public')
+  })); // Using Less CSS styling !
+  app.use(express.static(path.join(__dirname, 'public')));
+});
 
 app.get('/users', users.index);
-
 app.post('/users/create', users.create);
-
 app.get('/users/confirm', users.confirm);
-
 app.get('/users/reset', users.reset);
 app.get('/users/resetnew', users.resetnew);
 app.get('/newpassword', routes.newpassword);
 app.post('/users/newpassword', users.newpassword);
 
-app.post('/users/login', users.login);
+app.get('/trial', users.isLogged, users.trial);
+
+app.get('/login', users.login);
+// app.post('/users/login', users.isLogged, users.authenticate);
+app.post('/users/login', users.authenticate);
 
 app.get('/users/:id/show',users.currentuser,users.show);
 

@@ -86,6 +86,14 @@ exports.currentuser = function(req, res, next) {
    };
 };
 
+exports.isLogged = function(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  };
+  res.locals.user = req.user = req.session.user;
+  next();
+};
+
 exports.create = function(req, res, next){
 
   console.log(req.body);
@@ -205,15 +213,19 @@ exports.newpassword = function(req, res, next){
 };
 
 exports.login = function(req, res, next) {
-  console.log(req.body);
+  res.render('users/login');
+};
+
+exports.authenticate = function(req, res, next) {
+
   var username = req.body.username;
   var password = req.body.password;
 
-  User.findOne({username: username},function (err, user) {
+  User.findOne({username: username}, function (err, user) {
     if(err) next(err);
 
-      if (user === req.session.user){
-        res.json(user); 
+      if (user == req.session.user){
+        res.json(user);
       } else{
         
         var result = bcrypt.compareSync(password, user.hash);
@@ -280,4 +292,8 @@ exports.update= function(req, res){
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
+};
+
+exports.trial = function (req, res, next) {
+  res.json('this is the response');
 };
