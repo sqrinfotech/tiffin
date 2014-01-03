@@ -14,7 +14,8 @@ var validate = require('mongoose-validator').validate
   , mongoose = require('mongoose')
   , crypto = require('crypto')
   , bcrypt = require('bcrypt')
-  , Schema = mongoose.Schema; 
+  , Schema = mongoose.Schema
+  , userValidation = require('./userValidation.js'); 
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -24,28 +25,53 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
    }
 });
 
+usernameValidator = [
+  validate({message: 'Username should not be empty'},'notNull'),
+  validate({message: 'Username should be between 2 and 20 characters'}, 'len', 2, 20),
+  validate({message: 'Username must contain only aplhanumeric characters or underscores'}, 'regex', /^[a-zA-Z0-9_]]*$/)
+];
+
 var UserSchema = new Schema({
   username: {
     type: String,
     //unique: true,
     required: true
+    //validate: userValidation.usernameValidator  
   },
   salt: {
     type: String,
-    required: true
+    required: true,
   },
   hash: {
     type: String,
     required: true
   },
-  name: String,
+  name: {
+    type: String,
+    validate: userValidation.nameValidator
+  },
   email: {
     type: String,
     //unique: true,
-    required: true
+    required: true,
+    validate: userValidation.emailValidator
   },
-  address: String,
-  location: String,
+  address: {
+    type: String,
+    validate: userValidation.addressValidator
+  },
+  location: {
+    type: String,
+    validate: userValidation.locationValidator
+  },
+  state: {
+    type: String,
+    validate: userValidation.stateValidator
+  },
+  zipCode: {
+    type: Number,
+    validate: userValidation.zipCodeValidator
+  },
   loginIps: Array,
   confirmationToken:  String,
   confirmationTokenSentAt: Date,
@@ -59,6 +85,8 @@ var UserSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
 });
+
+
 
 var User = mongoose.model('User',UserSchema);
 
@@ -77,8 +105,8 @@ exports.currentuser = function(req, res, next) {
   var username = req.cookies.username;
   var id = req.cookies.id;
   
-  console.log('In CurrUser SEssion    :   '+req.session.user.name)
-  if (username == req.session.user.name){
+  console.log('In CurrUser SEssion    :   '+req.session.user.username)
+  if (username == req.session.user.username){
     console.log('session is correct');
     next();
   } else{
@@ -123,6 +151,7 @@ exports.create = function(req, res, next){
         text: "click here for confirm your account :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
       }, function(error, response){});
       res.json(user);
+      /*res.redirect('/login');*/
     };
   });
 };
@@ -152,6 +181,7 @@ exports.confirm = function(req, res, next) {
 exports.reset = function(req, res, next) {
   
   var query;
+
   User.findOne(query, function(err, user) { 
     var resetToken=randomToken();
     user.update({resetPasswordToken: resetToken}, function() {
@@ -220,36 +250,52 @@ exports.login = function(req, res, next) {
   res.render('users/login');
 };
 
+exports.register = function(req, res){
+  res.render('users/register');
+}
+
 exports.authenticate = function(req, res, next) {
 
-  var username = req.body.login;
+  var login = req.body.login;
   var password = req.body.password;
 
-  var query = {username: username};
+  var query = {$or: [{username: login}, {email: login}]};
 
   User.findOne(query, function (err, user) {
     if(err) next(err);
 
-      if (user == req.session.user){
-        res.json(user);
-      } else{
-        
-        var result = bcrypt.compareSync(password, user.hash);
+      if(user != null)
+      {
+        if (user == req.session.user){
+          res.json(user);
+        } else{
+          
+          var result = bcrypt.compareSync(password, user.hash);
 
-        if(result) {
-          if(!user.confirmationToken) {
-            if(err) next(err);
+          if(result) {
+             if(err) next(err);
+                req.session.user = user;
 
-              req.session.user = user;
-              user.update({$push: {loginIps: req.ip}},function(err,user){});
-              var count=user.signInCount+1; //check this
-              user.update({signInCount: count},function(err,user){});
-              res.json(user);
-          }; 
-        } else {
-            res.send('Password Wrong'); //change to json
+                if(user.loginIps.length == 5){
+                  user.update({$pop: {loginIps: 1}},function(err,user){});
+                  user.update({$push: {loginIps: req.ip}},function(err,user){});
+                }
+                else{
+                  user.update({$push: {loginIps: req.ip}},function(err,user){});
+                }
+
+                var count=user.signInCount+1; //done
+                user.update({$set: {signInCount: count}},function(err,user){});
+                res.json(user);
+          } else {
+              res.json('User name or Password is incorrect!'); //change to json
+          };
         };
-      };
+      }
+      else{
+        res.json('User name or Password is incorrect!'); //change to json
+      }
+      
   });
 };
 
@@ -295,6 +341,12 @@ exports.update= function(req, res){
     }
   );
 };
+
+exports.logout = function(req, res){
+  req.session.user = null;
+  console.log('After logout : ' + req.session.user);
+  res.redirect('/login');
+}
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');

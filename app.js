@@ -60,16 +60,14 @@ app.get('/newpassword', users.newPassword);
 app.post('/users/newpassword', users.newpassword);
 
 app.get('/trial', users.isLogged, users.trial);
-
 app.get('/login', users.login);
-// app.post('/users/login', users.isLogged, users.authenticate);
+app.get('/register', users.register);
+//app.post('/users/login', users.isLogged, users.authenticate);
 app.post('/users/login', users.authenticate);
-
 app.get('/users/:id/show',users.currentuser,users.show);
-
 app.get('/users/:id/delete',users.currentuser,users.delete);
-
 app.put('/users/:id/update',users.currentuser,users.update);
+app.get('/users/:id/logout', users.currentuser, users.logout);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

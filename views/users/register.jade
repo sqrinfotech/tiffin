@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    title Sign Up
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body    
+    center
+      h1 Sign Up
+      form(action='/users/create', method='post')
+        table
+          tr
+            td Name :
+            td
+              input(type='text', name='name', placeholder='Enter Name')
+          tr
+            td Username : 
+            td
+              input(type='text', name='username', placeholder='Select a username')
+          tr
+            td Password :
+            td
+              input(type='password', name='password', placeholder='Minimum 8 characters long')
+          tr
+            td Confirm Password :
+            td
+              input(type='password', name='cpassword', placeholder='Re-enter password')
+          tr
+            td Email ID :
+            td
+              input(type='email', name='email', placeholder='Enter Email ID')
+          tr
+            td Address :
+            td
+              input(type='text', name='address', placeholder='Enter address')
+          tr
+            td City :
+            td
+              input(type='text', name='location', placeholder='Enter city')
+          tr
+            td State :
+            td
+              input(type='text', name='state', placeholder='Enter State')
+          tr
+            td Zip Code :
+            td
+              input(type='text', name='zipCode', placeholder='Enter zipcode')
+
+        button(type='submit') Submit
