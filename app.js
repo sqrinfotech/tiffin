@@ -56,7 +56,7 @@ app.post('/users/create', users.create);
 app.get('/users/confirm', users.confirm);
 app.get('/users/reset', users.reset);
 app.get('/users/resetnew', users.resetnew);
-app.get('/newpassword', routes.newpassword);
+app.get('/newpassword', users.newPassword);
 app.post('/users/newpassword', users.newpassword);
 
 app.get('/trial', users.isLogged, users.trial);

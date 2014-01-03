@@ -212,16 +212,22 @@ exports.newpassword = function(req, res, next){
   });
 };
 
+exports.newPassword = function(req, res){
+  res.render('users/newPassword');
+};
+
 exports.login = function(req, res, next) {
   res.render('users/login');
 };
 
 exports.authenticate = function(req, res, next) {
 
-  var username = req.body.username;
+  var username = req.body.login;
   var password = req.body.password;
 
-  User.findOne({username: username}, function (err, user) {
+  var query = {username: username};
+
+  User.findOne(query, function (err, user) {
     if(err) next(err);
 
       if (user == req.session.user){
@@ -236,12 +242,12 @@ exports.authenticate = function(req, res, next) {
 
               req.session.user = user;
               user.update({$push: {loginIps: req.ip}},function(err,user){});
-              var count=user.signInCount+1;
+              var count=user.signInCount+1; //check this
               user.update({signInCount: count},function(err,user){});
               res.json(user);
           }; 
         } else {
-            res.send('Password Wrong');
+            res.send('Password Wrong'); //change to json
         };
       };
   });
