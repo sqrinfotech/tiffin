@@ -68,8 +68,10 @@ var UserSchema = new Schema({
     unique: true,
     required: true,
     validate: usernameValidator
+
     //unique: true,
     required: true
+>>>>>>> b9adc7ca80c15695a578e5316d907a63a1cd6a8f
   },
   salt: {
     type: String,
@@ -349,8 +351,11 @@ exports.update= function(req, res){
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
+<<<<<<< HEAD
+=======
 };
 
 exports.trial = function (req, res, next) {
   res.json('this is the response');
+>>>>>>> b9adc7ca80c15695a578e5316d907a63a1cd6a8f
 };
