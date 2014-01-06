@@ -25,12 +25,6 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
    }
 });
 
-usernameValidator = [
-  validate({message: 'Username should not be empty'},'notNull'),
-  validate({message: 'Username should be between 2 and 20 characters'}, 'len', 2, 20),
-  validate({message: 'Username must contain only aplhanumeric characters or underscores'}, 'regex', /^[a-zA-Z0-9_]]*$/)
-];
-
 var UserSchema = new Schema({
   username: {
     type: String,
