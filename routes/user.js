@@ -149,19 +149,22 @@ exports.sendEmail = function(req, res){
   var login = req.body.email;
   var query = {$or: [{username: login}, {email: login}]};
   User.findOne(query,function (err, user) {
-    console.log(user);
-    smtpTransport.sendMail({
-          from: "Tiffin <programtesting10@gmail.com>",
-          to: user.email,
-          subject: "Confirmation Of Account",
-          text: "click here for confirm your account :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
-    }, function (error, response){
-      if (error) {
-        next(error);
-      } else{
-        res.json('Confirmation Link send to Your Email');
-      };
-    });
+    if(user.confirmationToken){
+      smtpTransport.sendMail({
+            from: "Tiffin <programtesting10@gmail.com>",
+            to: user.email,
+            subject: "Confirmation Of Account",
+            text: "click here for confirm your account :http://localhost:3000/users/confirm?token="+user.confirmationToken+"&username="+user.username
+      }, function (error, response){
+        if (error) {
+          next(error);
+        } else{
+          res.json('Confirmation Link send to Your Email');
+        };
+      });
+    }else{
+      res.json('Your Account has already confirmed'); 
+    }
   });
 };
 
@@ -306,7 +309,9 @@ exports.authenticate = function(req, res, next) {
 
                 var count=user.signInCount+1; //done
                 user.update({$set: {signInCount: count}},function(err,user){});
-                res.json(user);
+                //res.redirect('users/dabbawalaList');
+                res.redirect('/dabbawalaList');
+                //res.json(user);
           } else {
               res.json('User name or Password is incorrect!'); //change to json
           };
@@ -318,6 +323,7 @@ exports.authenticate = function(req, res, next) {
       
   });
 };
+
 
 exports.show = function(req, res){
   User.findById(req.params.id, function (err, user){
@@ -374,4 +380,14 @@ function randomToken () {
 
 exports.trial = function (req, res, next) {
   res.json('this is the response');
+};
+
+exports.dabbawalaList = function(req, res){
+  User.find({},function(err,docs){
+    if (err){
+      throw err;
+    } else{
+      res.render('users/dabbawalaList', {records:docs});
+    };
+  });
 };
