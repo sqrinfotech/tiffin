@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , users = require('./routes/user')
+  , dabbawalas = require('./routes/dabbawala')
   , http = require('http')
   , path = require('path')
   , connect = require('connect')
@@ -74,7 +75,7 @@ app.get('/users/:id/show',users.isLogged,users.show);
 app.get('/users/:id/delete',users.isLogged,users.delete);
 app.put('/users/:id/update',users.isLogged,users.update);
 app.get('/users/:id/logout', users.isLogged, users.logout);
-app.get('/dabbawalasList',users.dabbawalasList);
+//app.get('/dabbawalasList',users.dabbawalasList);
 
 // ---------------------------------DABBAWALA---------------------------------------------
 app.get('/dabbawalas/register', dabbawalas.register);
@@ -93,15 +94,15 @@ app.get('/dabbawalas/trial', dabbawalas.isLogged, dabbawalas.trial);
 app.get('/dabbawalas/login', dabbawalas.login);
 app.post('/dabbawalas/login', dabbawalas.authenticate);
 
-app.get('/index',dabbawala.index);
-app.get('/dabbawala/:id/show',dabbwala.show);
+// app.get('/index',dabbawalas.index);
+// app.get('/dabbawalas/:id/show',dabbawalas.show);
 
-app.get('/dabbawlas/:id/edit',dabbawalas.edit);
+app.get('/dabbawalas/edit',dabbawalas.edit);
 app.get('/dabbawalas/:id/editdailymenu',dabbawalas.editDailyMenu);
 app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
-app.put('/dabbawala/:id/edit',dabbawala.update);
+//app.put('/dabbawalas/:id/edit',dabbawalas.update);
 
-app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
+//app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
 
 app.get('/dabbawalas/:id/logout', dabbawalas.isLogged, dabbawalas.logout);
 

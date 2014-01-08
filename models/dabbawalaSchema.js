@@ -1,8 +1,9 @@
 var mongoose = require('mongoose')
   , validate = require('mongoose-validator').validate
-  , userValidation = require('./userValidation.js'); 
+  , Schema = mongoose.Schema
+  , userValidation = require('../routes/userValidation.js'); 
 
-var DabbawalaSchema = new Schema({
+var DabbawalaSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -51,8 +52,8 @@ var DabbawalaSchema = new Schema({
     nonVeg: Boolean
   },
   cuisine: {
-    Type: String,
-    default: "Indian"
+    Type: String
+    //default: Indian
   },
 
   orderType: {
@@ -136,7 +137,7 @@ var MenuSchema = mongoose.Schema({
 var ItemSchema = mongoose.Schema({
   items: {
     itemName: String,
-    dabbawala: [
+    dabbawala: [{
       dabbawalaId: {
         type: Schema.Types.ObjectId,
         ref: 'Dabbawala'
@@ -147,7 +148,7 @@ var ItemSchema = mongoose.Schema({
       },
 
       date: Date
-    ]
+    }]
   }
 
 });

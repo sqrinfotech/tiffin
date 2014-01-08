@@ -7,7 +7,7 @@ var validate = require('mongoose-validator').validate
   , crypto = require('crypto')
   , bcrypt = require('bcrypt')
   , Schema = mongoose.Schema
-  , userValidation = require('./userValidation.js'); 
+  , dabbawalaSchema = require('../models/dabbawalaSchema.js');
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -18,7 +18,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 });
 
 
-var dabbawala= mongoose.model('Dabbawala',DabbawalaSchema);
+var dabbawala= dabbawalaSchema.Dabbawala;
 
 exports.index = function(req, res, next){
   
@@ -257,51 +257,15 @@ exports.authenticate = function(req, res, next) {
 //app.get('/index',dabbawala.index);
 //app.get('/dabbawala/:id/show',dabbwala.show);
 
-exports.delete= function(req, res){
-  dabbawala.remove({_id:req.params.id},function (err, user){
-    if (err){
-      throw err;
-    } else{
-      res.json('Your Account has Deleted');
-    };
-  });
+
+exports.edit = function(req, res, next) {
+  res.render('dabbawalas/edit');
 };
-
-// exports.edit= function(req, res){
-//   Dabbawala.findById(req.params.id, function(err,dabbawala){
-//     if (err){
-//       throw err;
-//     } else{
-//       res.render('dabbawalas/edit', {user: dabbawala});
-//     };
-//   });
-// };
-//will contain method of
-//app.get('/dabbawlas/:id/edit',dabbawalas.edit);
-//app.get('/dabbawalas/:id/editdailymenu',dabbawalas.editDailyMenu);
-//app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
-
-exports.update= function(req, res){
-  var slt = bcrypt.genSaltSync(10);
-  var hsh = bcrypt.hashSync(req.body.password, slt);
-
-  dabbawala.findByIdAndUpdate(req.params.id,{
-    username:req.body.username,
-    name: req.body.name,
-    email:req.body.email,
-    address: req.body.address,
-    location : req.body.city,
-    salt : slt,
-    hash : hsh,
-    updatedAt : new Date()
-  },function(err,docs){
-      if (err){
-        throw err;
-      } else{
-        res.json('Your Account has Updated');
-      };
-    }
-  );
+exports.editDailyMenu = function(req, res, next) {
+  res.render('dabbawalas/editDailyMenu');
+};
+exports.editFullProfile = function(req, res, next) {
+  res.render('dabbawalas/editFullProfile');
 };
 
 exports.logout = function(req, res){
