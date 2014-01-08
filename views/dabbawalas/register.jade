@@ -4,7 +4,7 @@ block content
   .container
     center
         h3 Sign Up
-      form.well.form-horizontal(action='/dabbawala/create', method='post')
+      form.well.form-horizontal(action='/dabbawalas/create', method='post')
         .form-group
           label.col-sm-3.control-label(for='name') Name :
           .col-sm-7
@@ -21,7 +21,7 @@ block content
             input#password.form-control(type='password',name='password', placeholder='Minimum 8 characters long')
 
         .form-group
-          label.col-sm-3.control-label(for='cpassword') Password :
+          label.col-sm-3.control-label(for='cpassword') Confirm Password :
           .col-sm-7
             input#cpassword.form-control(type='password',name='cpassword', placeholder='Re-enter password')
 
@@ -33,7 +33,7 @@ block content
         .form-group
           label.col-sm-3.control-label(for='contact') Contact Number :
           .col-sm-7
-            input#contact.form-control(type='email',name='contact', placeholder='Enter CONTACT NUMBER')
+            input#contact.form-control(type='text',name='contactNumber', placeholder='Enter CONTACT NUMBER')
 
         .form-group
           label.col-sm-3.control-label(for='address') Address :
@@ -43,7 +43,7 @@ block content
         .form-group
           label.col-sm-3.control-label(for='location') City :
           .col-sm-7
-            input#location.form-control(type='text',name='location', placeholder='Enter city')
+            input#location.form-control(type='text',name='city', placeholder='Enter city')
 
         .form-group
           label.col-sm-3.control-label(for='state') State :

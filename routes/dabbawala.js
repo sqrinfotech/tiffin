@@ -18,7 +18,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 });
 
 
-var dabbawala= dabbawalaSchema.Dabbawala;
+var Dabbawala= dabbawalaSchema.Dabbawala;
 
 exports.index = function(req, res, next){
   
@@ -81,7 +81,7 @@ exports.create = function(req, res, next){
 exports.sendEmail = function(req, res){
   var login = req.body.email;
   var query = {$or: [{username: login}, {email: login}]};
-  dabbawala.findOne(query,function (err, user) {
+  Dabbawala.findOne(query,function (err, dabbawala) {
     if(dabbawala.confirmationToken){
       smtpTransport.sendMail({
             from: "Tiffin <programtesting10@gmail.com>",
@@ -90,9 +90,10 @@ exports.sendEmail = function(req, res){
             text: "click here for confirm your account :http://localhost:3000/dabbawalas/confirm?token="+dabbawala.confirmationToken+"&username="+dabbawala.username
       }, function (error, response){
         if (error) {
-          next(error);
+          console(error);
         } else{
           res.json('Confirmation Link send to Your Email');
+          res.redirect('/dabbawalas/addTiffinDetails', {dabbawala: dabbawala});
         };
       });
     }else{
@@ -110,7 +111,7 @@ exports.confirm = function(req, res, next) {
   var token = req.query.token;
   var username = req.query.username;
 
-  dabbawala.findOne({confirmationToken: token, username: username},function (err, user) {
+  Dabbawala.findOne({confirmationToken: token, username: username},function (err, dabbawala) {
     dabbawala.update({updatedAt: new Date()},function(err,user){});
     if(err) next(err);
 
@@ -258,14 +259,101 @@ exports.authenticate = function(req, res, next) {
 //app.get('/dabbawala/:id/show',dabbwala.show);
 
 
-exports.edit = function(req, res, next) {
-  res.render('dabbawalas/edit');
+ exports.addTiffinDetails = function(req, res) {
+  res.render('dabbawalas/addTiffinDetails');
 };
-exports.editDailyMenu = function(req, res, next) {
+exports.addDailyMenu = function(req, res) {
+  res.render('dabbawalas/addDailyMenu');
+};
+exports.editFullProfile = function(req, res) {
+  res.render('dabbawalas/editFullProfile');
+};
+exports.editDailyMenu = function(req, res) {
   res.render('dabbawalas/editDailyMenu');
 };
-exports.editFullProfile = function(req, res, next) {
-  res.render('dabbawalas/editFullProfile');
+
+exports.updateTiffinDetails = function(req, res) {
+  var distributionAreas = req.body.area;
+  var arr = distributionAreas.split(",");
+
+  console.log(arr);
+  console.log(req.params.id);
+
+  Dabbawala.findOne(req.params.id, function(err, dabbawala){
+    if(err){
+      console.log(err);
+    }
+    else{
+      dabbawala.updatedAt = new Date();
+      dabbawala.distributionAreas = arr;
+      dabbawala.category = {veg: req.body.category_veg, nonVeg: req.body.category_nonveg},
+      dabbawala.orderType = {monthly: req.body.order_type_monthly, weekly: req.body.order_type_weekly, daily: req.body.order_type_daily},
+      dabbawala.price = {
+        monthly: {
+          veg: req.body.price_monthly_veg,
+          nonVeg: req.body.price_monthly_nonveg 
+        },
+        weekly:{
+          veg: req.body.price_weekly_veg,
+          nonVeg: req.body.price_weekly_nonveg
+        },
+        daily:{
+          veg: req.body.price_daily_veg,
+          nonVeg: req.body.price_daily_nonveg
+        }
+      }
+      dabbawala.save(function(err){
+        if(err)
+          console.log(err);
+        else
+          res.json(dabbawala);
+      });
+    }
+      
+  });
+
+  /*Dabbawala.findByIdAndUpdate(req.params.id, {$set: {
+    updatedAt: new Date(),
+      distributionAreas: arr,
+      category: {veg: req.body.category_veg, nonVeg: req.body.category_nonveg},
+      orderType: {monthly: req.body.order_type_monthly, weekly: req.body.order_type_weekly, daily: req.body.order_type_daily},
+      price: {
+        monthly: {
+          veg: req.body.price_monthly_veg,
+          nonVeg: req.body.price_monthly_nonveg 
+        },
+        weekly:{
+          veg: req.body.price_weekly_veg,
+          nonVeg: req.body.price_weekly_nonveg
+        },
+        daily:{
+          veg: req.body.price_daily_veg,
+          nonVeg: req.body.price_daily_nonveg
+        }
+      }
+      }
+    }, function(err, dabbawala){
+
+      if(err){
+        console.log(err);
+      }
+      else{
+        res.json(dabbawala);
+      }
+
+  });*/
+};
+
+exports.updateDailyMenu= function(req, res){
+
+};
+
+exports.updateProfile = function(req, res){
+
+};
+
+exports.newDailyMenu = function(req, res) {
+  
 };
 
 exports.logout = function(req, res){
