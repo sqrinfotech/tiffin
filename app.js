@@ -76,17 +76,13 @@ app.put('/users/:id/update',users.isLogged,users.update);
 app.get('/users/:id/logout', users.isLogged, users.logout);
 app.get('/dabbawalasList',users.dabbawalasList);
 
-
+// ---------------------------------DABBAWALA---------------------------------------------
 app.get('/dabbawalas/register', dabbawalas.register);
 app.post('/dabbawalas/create', dabbawalas.create,dabbawalas.sendEmail);
-app.get('/dabbawla/:id/edit',dabbawalas.edit);
-app.put('/dabbawalas/:id/edit',dabbawalas.update);
-app.get('/dabbawalas/:id/editmenu',dabbawalas.editmenu);
-app.put('/dabbawalas/:id/editmenu',dabbawalas.updatemenu);
-app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
 app.get('/dabbawalas/confirm', dabbawalas.confirm);
 app.get('/dabbawalas/newconfirm', dabbawalas.newConfirm);
 app.post('/dabbawalas/newconfirm',dabbawalas.sendEmail);
+
 app.get('/dabbawalas/resetpassword', dabbawalas.resetPassword);
 app.post('/dabbawalas/resetpassword', dabbawalas.reset);
 app.get('/dabbawalas/resetnew', dabbawalas.resetNew);
@@ -96,6 +92,17 @@ app.post('/dabbawalas/newpassword', dabbawalas.newPasswordSave);
 app.get('/dabbawalas/trial', dabbawalas.isLogged, dabbawalas.trial);
 app.get('/dabbawalas/login', dabbawalas.login);
 app.post('/dabbawalas/login', dabbawalas.authenticate);
+
+app.get('/index',dabbawala.index);
+app.get('/dabbawala/:id/show',dabbwala.show);
+
+app.get('/dabbawlas/:id/edit',dabbawalas.edit);
+app.get('/dabbawalas/:id/editdailymenu',dabbawalas.editDailyMenu);
+app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
+app.put('/dabbawala/:id/edit',dabbawala.update);
+
+app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
+
 app.get('/dabbawalas/:id/logout', dabbawalas.isLogged, dabbawalas.logout);
 
 http.createServer(app).listen(app.get('port'), function(){
