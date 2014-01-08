@@ -1,0 +1,59 @@
+extends ../layout
+
+block content
+  .container
+    center
+        h3 Sign Up
+      form.well.form-horizontal(action='/dabbawala/create', method='post')
+        .form-group
+          label.col-sm-3.control-label(for='name') Name :
+          .col-sm-7
+            input#name.form-control(type='text',name='name', placeholder='Enter Name')
+
+        .form-group
+          label.col-sm-3.control-label(for='username') Username :
+          .col-sm-7
+            input#username.form-control(type='text',name='username', placeholder='Select a username')
+
+        .form-group
+          label.col-sm-3.control-label(for='password') Password :
+          .col-sm-7
+            input#password.form-control(type='password',name='password', placeholder='Minimum 8 characters long')
+
+        .form-group
+          label.col-sm-3.control-label(for='cpassword') Password :
+          .col-sm-7
+            input#cpassword.form-control(type='password',name='cpassword', placeholder='Re-enter password')
+
+        .form-group
+          label.col-sm-3.control-label(for='email') Email ID :
+          .col-sm-7
+            input#email.form-control(type='email',name='email', placeholder='Enter Email ID')
+
+        .form-group
+          label.col-sm-3.control-label(for='contact') Contact Number :
+          .col-sm-7
+            input#contact.form-control(type='email',name='contact', placeholder='Enter CONTACT NUMBER')
+
+        .form-group
+          label.col-sm-3.control-label(for='address') Address :
+          .col-sm-7
+            input#address.form-control(type='text',name='address', placeholder='Enter address')
+
+        .form-group
+          label.col-sm-3.control-label(for='location') City :
+          .col-sm-7
+            input#location.form-control(type='text',name='location', placeholder='Enter city')
+
+        .form-group
+          label.col-sm-3.control-label(for='state') State :
+          .col-sm-7
+            input#state.form-control(type='text',name='state', placeholder='Enter State')
+
+        .form-group
+          label.col-sm-3.control-label(for='zipCode') Zip Code :
+          .col-sm-7
+            input#zipCode.form-control(type='text',name='zipCode', placeholder='Enter zipcode')
+
+        .form-group
+          button.btn.btn-primary.col-sm-2(type='submit') Submit

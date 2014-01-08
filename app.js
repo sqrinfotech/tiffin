@@ -55,6 +55,7 @@ app.configure(function() {
 });
 
 app.get('/users', users.index);
+app.get('/users/register', users.register);
 app.post('/users/create', users.create,users.sendEmail);
 app.get('/users/confirm', users.confirm);
 app.get('/newconfirm', users.newConfirm);
@@ -68,13 +69,34 @@ app.post('/users/newpassword', users.newPasswordSave);
 app.get('/trial', users.isLogged, users.trial);
 app.get('/login', users.login);
 
-app.get('/register', users.register);
 app.post('/users/login', users.authenticate);
 app.get('/users/:id/show',users.isLogged,users.show);
 app.get('/users/:id/delete',users.isLogged,users.delete);
 app.put('/users/:id/update',users.isLogged,users.update);
-app.get('/dabbawalaList',users.dabbawalaList);
 app.get('/users/:id/logout', users.isLogged, users.logout);
+app.get('/dabbawalasList',users.dabbawalasList);
+
+
+app.get('/dabbawalas/register', dabbawalas.register);
+app.post('/dabbawalas/create', dabbawalas.create,dabbawalas.sendEmail);
+app.get('/dabbawla/:id/edit',dabbawalas.edit);
+app.put('/dabbawalas/:id/edit',dabbawalas.update);
+app.get('/dabbawalas/:id/editmenu',dabbawalas.editmenu);
+app.put('/dabbawalas/:id/editmenu',dabbawalas.updatemenu);
+app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
+app.get('/dabbawalas/confirm', dabbawalas.confirm);
+app.get('/dabbawalas/newconfirm', dabbawalas.newConfirm);
+app.post('/dabbawalas/newconfirm',dabbawalas.sendEmail);
+app.get('/dabbawalas/resetpassword', dabbawalas.resetPassword);
+app.post('/dabbawalas/resetpassword', dabbawalas.reset);
+app.get('/dabbawalas/resetnew', dabbawalas.resetNew);
+app.get('/dabbawalas/newpassword', dabbawalas.newPassword);
+app.post('/dabbawalas/newpassword', dabbawalas.newPasswordSave);
+
+app.get('/dabbawalas/trial', dabbawalas.isLogged, dabbawalas.trial);
+app.get('/dabbawalas/login', dabbawalas.login);
+app.post('/dabbawalas/login', dabbawalas.authenticate);
+app.get('/dabbawalas/:id/logout', dabbawalas.isLogged, dabbawalas.logout);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
