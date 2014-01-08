@@ -259,7 +259,8 @@ exports.authenticate = function(req, res, next) {
 //app.get('/dabbawala/:id/show',dabbwala.show);
 
 
- exports.addTiffinDetails = function(req, res) {
+
+exports.addTiffinDetails = function(req, res) {
   res.render('dabbawalas/addTiffinDetails');
 };
 exports.addDailyMenu = function(req, res) {
@@ -345,6 +346,7 @@ exports.updateTiffinDetails = function(req, res) {
 };
 
 exports.updateDailyMenu= function(req, res){
+
 
 };
 

@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+  .container
+    center
+        h3 Enter Additional Information of Services
+      form.well.form-horizontal(action='/dabbawalas/#{dabbawala._id}/newTiffinDetails', method='Post')
+        .form-group
+          label.col-sm-3.control-label(for='area') Area where you can provide tiffin :
+          .col-sm-7
+            input#area.form-control(type='text',name='area',placeholder='Plz Enter areas separated by comma')
+
+        .form-group
+          label.col-sm-3.control-label(for='category_veg') Category of food you are providing :
+          .col-sm-3
+            input#category_veg(type='checkbox')
+            | Vegetarian
+          .col-sm-3
+            input#category_nonveg(type='checkbox')
+            | Non-Vegetarian
+                   
+        .form-group
+          label.col-sm-3.control-label(for='orderType') Types of order you are excepting :
+          .col-sm-3
+            input#orderType_daily(type='checkbox')
+            | Daily
+          .col-sm-3
+            input#orderType_weekly(type='checkbox')
+            | Weekly
+          .col-sm-3
+            input#orderType_monthly(type='checkbox')
+            | Monthly
+
+        .form-group
+          .col-sm-3
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_daily_veg.form-control(type='text',name='price_daily_veg',placeholder='Price for vegetarian')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_weekly_veg.form-control(type='text',name='price_weekly_veg',placeholder='Price for vegetarian')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_monthly_veg.form-control(type='text',name='price_monthly_veg',placeholder='Price for vegetarian')
+        .form-group    
+          .col-sm-3
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_daily_nonVeg.form-control(type='text',name='price_daily_nonVeg',placeholder='Price for non-vegetarian')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_weekly_nonVeg.form-control(type='text',name='price_weekly_nonVeg',placeholder='Price for non-vegetarian')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_monthly_nonVeg.form-control(type='text',name='price_monthly_nonVeg',placeholder='Price for non-vegetarian')
+
+
+        .form-group
+          .col-sm-3
+          button.btn.btn-primary.col-sm-2(type='submit') Submit
+          .col-sm-1
+          button.btn.btn-primary.col-sm-2(type='button') Cancel
