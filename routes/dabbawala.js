@@ -258,14 +258,33 @@ exports.authenticate = function(req, res, next) {
 //app.get('/dabbawala/:id/show',dabbwala.show);
 
 
-exports.edit = function(req, res, next) {
-  res.render('dabbawalas/edit');
+exports.addTiffinDetails = function(req, res) {
+  res.render('dabbawalas/addTiffinDetails');
 };
-exports.editDailyMenu = function(req, res, next) {
+exports.addDailyMenu = function(req, res) {
+  res.render('dabbawalas/addDailyMenu');
+};
+exports.editFullProfile = function(req, res) {
+  res.render('dabbawalas/editFullProfile');
+};
+exports.editDailyMenu = function(req, res) {
   res.render('dabbawalas/editDailyMenu');
 };
-exports.editFullProfile = function(req, res, next) {
-  res.render('dabbawalas/editFullProfile');
+
+exports.newTiffinDetails = function(req, res) {
+  
+};
+
+exports.updateTiffinDetails= function(req, res){
+
+};
+
+exports.updateProfile = function(req, res){
+
+};
+
+exports.newDailyMenu = function(req, res) {
+  
 };
 
 exports.logout = function(req, res){

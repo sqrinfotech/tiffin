@@ -97,10 +97,14 @@ app.post('/dabbawalas/login', dabbawalas.authenticate);
 // app.get('/index',dabbawalas.index);
 // app.get('/dabbawalas/:id/show',dabbawalas.show);
 
-app.get('/dabbawalas/edit',dabbawalas.edit);
-app.get('/dabbawalas/:id/editdailymenu',dabbawalas.editDailyMenu);
+app.get('/dabbawalas/addTiffinDetails',dabbawalas.addTiffinDetails);
+app.get('/dabbawalas/addDailyMenu',dabbawalas.addDailyMenu);
 app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
-//app.put('/dabbawalas/:id/edit',dabbawalas.update);
+app.get('/dabbawalas/:id/updateDailyMenu',dabbawalas.editDailyMenu);
+app.post('/dabbawalas/:id/updateTiffinDetails', dabbawalas.updateTiffinDetails);
+app.post('/dabbawalas/newDailyMenu', dabbawalas.newDailyMenu);
+app.put('/dabbawalas/:id/updateProfile',dabbawalas.updateProfile);
+app.put('/dabbawalas/:id/updateDailyMenu',dabbawalas.updateDailyMenu);
 
 //app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
 

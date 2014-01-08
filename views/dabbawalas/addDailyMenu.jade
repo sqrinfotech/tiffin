@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .container
+    center
+        h3 Enter Additional Information of Services
+      form.well.form-horizontal(action='/dabbawalas/newDailyMenu', method='Post')
+        .form-group
+          label.col-sm-3.control-label(for='date') Date :
+          .col-sm-7
+            input#date.form-control(type='date',name='date')
+
+        .form-group
+          label.col-sm-3.control-label Lunch :
+          label.col-sm-3.control-label Vegetarian :
+
+        .form-group
+          .col-sm-3
+          button.btn.btn-primary.col-sm-2(type='submit') Submit
+          .col-sm-1
+          button.btn.btn-primary.col-sm-2(type='button') Cancel
