@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+ .container
+    .jumbotron
+      form.well.form-horizontal(action='/home', method='Post')
+        .form-group
+          label.col-sm-7.control-label Are You A Dabbawala ?
+          
+        .form-group
+          .col-sm-3
+          button.btn.btn-primary.col-sm-2(type='submit') Yes
+          .col-sm-1
+          button.btn.btn-primary.col-sm-2(type='submit') No

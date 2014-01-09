@@ -316,37 +316,6 @@ exports.updateTiffinDetails = function(req, res) {
     }
       
   });
-
-  /*Dabbawala.findByIdAndUpdate(req.params.id, {$set: {
-    updatedAt: new Date(),
-      distributionAreas: arr,
-      category: {veg: req.body.category_veg, nonVeg: req.body.category_nonveg},
-      orderType: {monthly: req.body.order_type_monthly, weekly: req.body.order_type_weekly, daily: req.body.order_type_daily},
-      price: {
-        monthly: {
-          veg: req.body.price_monthly_veg,
-          nonVeg: req.body.price_monthly_nonveg 
-        },
-        weekly:{
-          veg: req.body.price_weekly_veg,
-          nonVeg: req.body.price_weekly_nonveg
-        },
-        daily:{
-          veg: req.body.price_daily_veg,
-          nonVeg: req.body.price_daily_nonveg
-        }
-      }
-      }
-    }, function(err, dabbawala){
-
-      if(err){
-        console.log(err);
-      }
-      else{
-        res.json(dabbawala);
-      }
-
-  });*/
 };
 
 exports.updateDailyMenu= function(req, res){
