@@ -338,8 +338,11 @@ exports.newDailyMenu = function(req, res) {
   var lunchNonvegArr = lunchNonveg.split(",");
   var dinnerVegArr = dinnerVeg.split(",");
   var dinnerNonvegArr = dinnerNonveg.split(","); 
+  var items = lunchVegArr.concat(lunchNonvegArr, dinnerVegArr, dinnerNonvegArr);
 
+  console.log(items);
 
+  //Adding into menu collection
   Menu.findOne({dabbawalaId: req.params.id}, function(err, menu){
     if(err){
       console.log(err);
@@ -364,18 +367,86 @@ exports.newDailyMenu = function(req, res) {
       }
       else{
         menu.update({$push: {dayArray: {date: req.body.date, 
-            lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
-            dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}}}}, function(err){
-            if(err){
-              console.log(err);
-            }
-            else
-            {
-              res.json(menu);
-            }
+          lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
+          dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}}}}, function(err){
+          if(err){
+            console.log(err);
+          }
+          else
+          {
+            res.json(menu);
+          }
         });
       }
     }
+  });
+
+  //Items collection
+  items.forEach(function(menuItem){
+    Item.findOne({itemName: menuItem}, function(err, item){
+      if(err){
+        console.log(err);
+      }
+      else{
+        if(item == null) //Add new document
+        {
+          item = new Item();
+          item.itemName = menuItem;
+          item.dabbawalas.push({
+            dabbawalaId: req.params.id,
+            itemCount: 1,
+            //date.push(req.body.date)
+          });
+
+          item.save(function(err, item){
+            if(err)
+              console.log(err);
+            else
+              console.log(item);
+          });
+
+        }
+        else //update existing document(update dabbawala details or add dabbawala)
+        {
+          //item.dabbawalas.
+          var arr = item.dabbawalas;
+          var dabbawalaPresent = false;
+          for(var i=0;i<arr.length;i++) {
+
+            console.log(arr[i].dabbawalaId);
+            console.log(req.params.id);
+
+            if(arr[i].dabbawalaId === req.params.id){
+              //TODO: update element of array
+              var count = arr[i].itemCount + 1;
+              
+              console.log("Item Count + 1: " + count)
+              item.update({$set: {'dabbawalas.$.itemCount': count}, 
+                $push: {'dabbawalas.$.date': new Date()}}, function(err, num){
+                  if(err)
+                    console.log(err);
+                  else
+                    console.log(item + "\n Rows affected" + num);
+                });
+
+              dabbawalaPresent = true;
+              console.log('Dabbawala present just update count and push date');
+            }
+          }
+          if(!dabbawalaPresent){
+            //Push dabbawala to array
+              item.update({$push: {dabbawalas: {
+                dabbawalaId: req.params.id,
+                itemCount: 1,
+                //date.push(req.body.date)
+                }}
+              }, function(err){
+                if(err) console.log(err);
+              });
+          }
+        }
+      }
+    });
   });
 };
 

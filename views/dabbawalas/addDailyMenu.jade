@@ -4,7 +4,7 @@ block content
   .container
     center
         h3 Enter Additional Information of Services
-      form.well.form-horizontal(action='/dabbawalas/newDailyMenu', method='Post')
+      form.well.form-horizontal(action='/dabbawalas/#{dabbawala._id}/newDailyMenu', method='Post')
         .form-group
           label.col-sm-3.control-label(for='date') Date :
           .col-sm-7

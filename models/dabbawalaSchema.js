@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
   , validate = require('mongoose-validator').validate
   , Schema = mongoose.Schema
-  , userValidation = require('../routes/userValidation.js'); 
+  , userValidation = require('../routes/userValidation.js');
 
 var DabbawalaSchema = mongoose.Schema({
   username: {
@@ -133,22 +133,18 @@ var MenuSchema = mongoose.Schema({
 
 //Items Collection
 var ItemSchema = mongoose.Schema({
-  items: {
-    itemName: String,
-    dabbawala: [{
-      dabbawalaId: {
-        type: String,
-        ref: 'Dabbawala'
-      },
-      itemCount: {
-        type: Number,
-        default: 0
-      },
-
-      date: Date
-    }]
-  }
-
+  itemName: String,
+  dabbawalas: [{
+    dabbawalaId: {
+      type: String,
+      ref: 'Dabbawala'
+    },
+    itemCount: {
+      type: Number,
+      default: 0
+    },
+    date: [Date]
+  }]
 });
 
 exports.Dabbawala = mongoose.model('Dabbawala', DabbawalaSchema);
