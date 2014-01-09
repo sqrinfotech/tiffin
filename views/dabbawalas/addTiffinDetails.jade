@@ -13,22 +13,22 @@ block content
         .form-group
           label.col-sm-3.control-label(for='category_veg') Category of food you are providing :
           .col-sm-3
-            input#category_veg(type='checkbox')
+            input#category_veg(type='checkbox', name='category_veg')
             | Vegetarian
           .col-sm-3
-            input#category_nonveg(type='checkbox')
+            input#category_nonveg(type='checkbox', name='category_nonveg')
             | Non-Vegetarian
                    
         .form-group
           label.col-sm-3.control-label(for='orderType') Types of order you are excepting :
           .col-sm-3
-            input#orderType_daily(type='checkbox')
+            input#order_type_daily(type='checkbox', name='order_type_daily')
             | Daily
           .col-sm-3
-            input#orderType_weekly(type='checkbox')
+            input#order_type_weekly(type='checkbox', name='order_type_weekly')
             | Weekly
           .col-sm-3
-            input#orderType_monthly(type='checkbox')
+            input#order_type_monthly(type='checkbox', name='order_type_monthly')
             | Monthly
 
         .form-group
