@@ -92,8 +92,9 @@ exports.sendEmail = function(req, res){
         if (error) {
           console(error);
         } else{
-          res.json('Confirmation Link send to Your Email');
-          res.redirect('/dabbawalas/addTiffinDetails', {dabbawala: dabbawala});
+          //res.json('Confirmation Link send to Your Email');
+          console.log(dabbawala);
+          res.render('dabbawalas/addTiffinDetails', {dabbawala: dabbawala});
         };
       });
     }else{
