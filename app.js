@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , home = require('./routes/home')
   , users = require('./routes/user')
   , dabbawalas = require('./routes/dabbawala')
   , http = require('http')
@@ -56,7 +57,7 @@ app.configure(function() {
 });
 
 app.get('/', routes.home);
-//app.post('/home', users.home);
+app.post('/home',home.home);
 
 app.get('/users', users.index);
 app.get('/users/register', users.register);
@@ -96,6 +97,7 @@ app.post('/dabbawalas/newpassword', dabbawalas.newPasswordSave);
 app.get('/dabbawalas/trial', dabbawalas.isLogged, dabbawalas.trial);
 app.get('/dabbawalas/login', dabbawalas.login);
 app.post('/dabbawalas/login', dabbawalas.authenticate);
+app.get('/dabbawalas/logoutButton',dabbawalas.logoutButton);
 
 // app.get('/index',dabbawalas.index);
 // app.get('/dabbawalas/:id/show',dabbawalas.show);
@@ -103,7 +105,7 @@ app.post('/dabbawalas/login', dabbawalas.authenticate);
 app.get('/dabbawalas/addTiffinDetails',dabbawalas.addTiffinDetails);
 app.get('/dabbawalas/addDailyMenu',dabbawalas.addDailyMenu);
 app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
-app.get('/dabbawalas/:id/updateDailyMenu',dabbawalas.editDailyMenu);
+app.get('/dabbawalas/:id/editDailyMenu',dabbawalas.editDailyMenu);
 app.post('/dabbawalas/:id/updateTiffinDetails', dabbawalas.updateTiffinDetails);
 app.post('/dabbawalas/:id/newDailyMenu', dabbawalas.newDailyMenu);
 app.put('/dabbawalas/:id/updateProfile',dabbawalas.updateProfile);

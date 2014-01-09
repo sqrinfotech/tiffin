@@ -47,10 +47,10 @@ exports.currentdabbawala= function(req, res, next) {
 };
 
 exports.isLogged = function(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect('/login');
+  if (!req.session.dabbawala) {
+    return res.redirect('/dabbawalas/login');
   };
-  res.locals.dabbawala= req.dabbawala= req.session.user;
+  res.locals.dabbawala= req.dabbawala= req.session.dabbawala;
   next();
 };
 
@@ -140,14 +140,14 @@ exports.reset = function(req, res, next) {
   var login = req.body.email;
   var query = {$or: [{username: login}, {email: login}]};
   
-  dabbawala.findOne(query, function(err, user) { 
+  Dabbawala.findOne(query, function (err, dabbawala) { 
     var resetToken=randomToken();
     dabbawala.update({resetPasswordToken: resetToken}, function() {
       if(err) next(err);
       if (err) {
         next(err);
       } else{
-        dabbawala.update({resetPasswordTokenSentAt: new Date()},function(err,user){});
+        dabbawala.update({resetPasswordTokenSentAt: new Date()},function(err,dabbawala){});
         smtpTransport.sendMail({
           from: "Tiffin <programtesting10@gmail.com>",
           to: dabbawala.email,
@@ -163,7 +163,7 @@ exports.reset = function(req, res, next) {
 exports.resetNew = function(req, res, next) {
 
   var resetToken = req.query.resetToken;
-  dabbawala.findOne({resetPasswordToken: resetToken},function (err, user) {
+  Dabbawala.findOne({resetPasswordToken: resetToken},function (err, dabbawala) {
     if(err) next(err);
     dabbawala.update({resetPasswordToken: null}, function() {
       if(err) next(err);
@@ -187,12 +187,12 @@ exports.newPasswordSave = function(req, res, next){
   var npassword = req.body.npassword;
   var cpassword = req.body.cpassword;
   var email = req.body.email;
-  dabbawala.findOne({email: email},function (err, user) {
+  Dabbawala.findOne({email: email},function (err, dabbawala) {
     if(npassword == cpassword){
       slt = bcrypt.genSaltSync(10);
       hsh = bcrypt.hashSync(npassword,slt);
       dabbawala.update({salt: slt,hash: hsh }, function() {
-        dabbawala.update({updatedAt: new Date()},function(err,user){});
+        dabbawala.update({updatedAt: new Date()},function(err,dabbawala){});
         if(err) next(err);
         if (err) {
           next(err);
@@ -216,34 +216,32 @@ exports.authenticate = function(req, res, next) {
 
   var query = {$or: [{username: login}, {email: login}]};
 
-  dabbawala.findOne(query, function (err, user) {
+  Dabbawala.findOne(query, function (err, dabbawala) {
     if(err) next(err);
 
       if(dabbawala!= null)
       {
-        if (dabbawala== req.session.user){
-          res.json(user);
+        if (dabbawala== req.session.dabbawala){
+          res.json(dabbawala);
         } else{
           
           var result = bcrypt.compareSync(password, dabbawala.hash);
 
           if(result) {
              if(err) next(err);
-                req.session.dabbawala= user;
+                req.session.dabbawala= dabbawala;
 
                 if(dabbawala.loginIps.length == 5){
-                  dabbawala.update({$pop: {loginIps: 1}},function(err,user){});
-                  dabbawala.update({$push: {loginIps: req.ip}},function(err,user){});
+                  dabbawala.update({$pop: {loginIps: 1}},function (err,dabbawala){});
+                  dabbawala.update({$push: {loginIps: req.ip}},function (err,dabbawala){});
                 }
                 else{
-                  dabbawala.update({$push: {loginIps: req.ip}},function(err,user){});
+                  dabbawala.update({$push: {loginIps: req.ip}},function (err,dabbawala){});
                 }
 
                 var count=dabbawala.signInCount+1; //done
-                dabbawala.update({$set: {signInCount: count}},function(err,user){});
-                //res.redirect('/dabbawalaList');
-                //shd open dabbawalas.edit
-                res.json(user);
+                dabbawala.update({$set: {signInCount: count}},function (err,dabbawala){});
+                res.redirect('/dabbawalas/logoutButton');
           } else {
               res.json('username or Password is incorrect!'); //change to json
           };
@@ -270,11 +268,25 @@ exports.addDailyMenu = function(req, res) {
   res.render('dabbawalas/addDailyMenu');
 };
 exports.editFullProfile = function(req, res) {
-  res.render('dabbawalas/editFullProfile');
+  Dabbawala.findById(req.params.id, function (err,dabbawala){
+    if (err){
+      throw err;
+    } else{
+        res.render('dabbawalas/editFullProfile',{dabbawala: dabbawala});
+    }; 
+  });
 };
+
 exports.editDailyMenu = function(req, res) {
-  res.render('dabbawalas/editDailyMenu');
+  Menu.findById(req.params.id, function (err,menu){
+    if (err){
+      throw err;
+    } else{
+        res.render('dabbawalas/editDailyMenu',{menu: menu});
+    };
+  });
 };
+
 
 exports.updateTiffinDetails = function(req, res) {
   var distributionAreas = req.body.area;
@@ -452,7 +464,7 @@ exports.newDailyMenu = function(req, res) {
 
 exports.logout = function(req, res){
   req.session.dabbawala= null;
-  res.redirect('/login');
+  res.redirect('/dabbawalas/login');
 }
 
 function randomToken () {
@@ -461,4 +473,14 @@ function randomToken () {
 
 exports.trial = function (req, res, next) {
   res.json('this is the response');
+};
+
+exports.logoutButton = function(req, res){
+  Dabbawala.find({},function(err,docs){
+    if (err){
+      throw err;
+    } else{
+      res.render('dabbawalas/logoutButton', {records:docs});
+    };
+  });
 };

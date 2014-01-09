@@ -3,8 +3,8 @@ extends ../layout
 block content
   .container
     center
-        h3 Login User
-      form.well.form-horizontal(action='/users/login', method='post')
+        h3 Login Dabbawala
+      form.well.form-horizontal(action='/dabbawalas/login', method='post')
         .form-group
           label.col-sm-3.control-label(for='login') Username/E-Mail :
           .col-sm-7
@@ -18,15 +18,15 @@ block content
         .form-group
           .col-sm-5
           button.btn.btn-primary.col-sm-2(type='submit') Submit
-          
-        .form-group
-          .col-sm-5
-          a(href='/users/register') Sign Up 
 
         .form-group
           .col-sm-5
-          a(href='/resetpassword') Forget your Password?
+          a(href='/dabbawalas/register') Sign Up 
 
         .form-group
           .col-sm-5
-          a(href='/newconfirm') Send Confirmation Email  
+          a(href='/dabbawalas/resetpassword') Forget your Password?
+
+        .form-group
+          .col-sm-5
+          a(href='/dabbawalas/newconfirm') Send Confirmation Email  
