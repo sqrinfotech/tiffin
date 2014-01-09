@@ -11,8 +11,29 @@ block content
             input#date.form-control(type='date',name='date')
 
         .form-group
+        .form-group
           label.col-sm-3.control-label Lunch :
-          label.col-sm-3.control-label Vegetarian :
+          label.col-sm-2.control-label Vegetarian :
+          .col-sm-1
+            textarea#lunch_veg.input-xlarge(rows='3',name='lunch_veg' placeholder='Menu for Veg')
+          .form-group
+          .col-sm-3  
+          label.col-sm-2.control-label Non-Vegetarian :
+          .col-sm-1
+            textarea#lunch_nonveg.input-xlarge(rows='3',name='lunch_nonveg' placeholder='Menu for Non-Veg')
+
+        .form-group
+        .form-group
+          label.col-sm-3.control-label Dinner :
+          label.col-sm-2.control-label Vegetarian :
+          .col-sm-1
+            textarea#dinner_veg.input-xlarge(rows='3',name='dinner_veg' placeholder='Menu for Veg')
+          .form-group
+          .col-sm-3  
+          label.col-sm-2.control-label Non-Vegetarian :
+          .col-sm-1
+            textarea#dinner_nonveg.input-xlarge(rows='3',name='dinner_nonveg' placeholder='Menu for Non-Veg')
+
 
         .form-group
           .col-sm-3

@@ -55,6 +55,9 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+app.get('/', routes.home);
+//app.post('/home', users.home);
+
 app.get('/users', users.index);
 app.get('/users/register', users.register);
 app.post('/users/create', users.create,users.sendEmail);

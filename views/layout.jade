@@ -10,6 +10,17 @@ html
      
   body
  
+    .navbar.navbar-inverse.navbar-static-top
+      .container
+        a.navbar-brand(href='#') Connect To Dabbawala Site
+        button.navbar-toggle(data-toggle='collapse', data-target='.navHeaderCollapse')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        .collapse.navbar-collapse.navHeaderCollapse
+          ul.nav.navbar-nav.navbar-right
+            li.active
+              a(href='/') Home
     block content
 
     .navbar.navbar-default.navbar-fixed-bottom
