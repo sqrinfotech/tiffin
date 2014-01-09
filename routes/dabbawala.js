@@ -279,7 +279,7 @@ exports.updateTiffinDetails = function(req, res) {
   var arr = distributionAreas.split(",");
 
   console.log(arr);
-  console.log(req.params.id);
+  console.log(req.body);
 
   Dabbawala.findOne(req.params.id, function(err, dabbawala){
     if(err){
