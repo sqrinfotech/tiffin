@@ -18,7 +18,9 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 });
 
 
-var Dabbawala= dabbawalaSchema.Dabbawala;
+var Dabbawala = dabbawalaSchema.Dabbawala;
+var Menu = dabbawalaSchema.Menu;
+var Item = dabbawalaSchema.Item;
 
 exports.index = function(req, res, next){
   
@@ -58,7 +60,7 @@ exports.register = function(req, res){
 
 exports.create = function(req, res, next){
 
-  var dabbawala= new Dabbawala(req.body);
+  var dabbawala = new Dabbawala(req.body);
 
   dabbawala.confirmationToken = randomToken();
   dabbawala.confirmationTokenSentAt = dabbawala.createdAt = dabbawala.updatedAt = new Date();
@@ -308,7 +310,8 @@ exports.updateTiffinDetails = function(req, res) {
         if(err)
           console.log(err);
         else
-          res.json(dabbawala);
+          //res.json(dabbawala);
+          res.render('dabbawalas/addDailyMenu', {dabbawala: dabbawala});
       });
     }
       
@@ -356,7 +359,55 @@ exports.updateProfile = function(req, res){
 };
 
 exports.newDailyMenu = function(req, res) {
-  
+
+  var lunchVeg = req.body.lunch_veg
+    , lunchNonveg = req.body.lunch_nonveg
+    , dinnerVeg = req.body.dinner_veg
+    , dinnerNonveg = req.body.dinner_nonveg;
+
+  var lunchVegArr = lunchVeg.split(",");
+  var lunchNonvegArr = lunchNonveg.split(",");
+  var dinnerVegArr = dinnerVeg.split(",");
+  var dinnerNonvegArr = dinnerNonveg.split(","); 
+
+
+  Menu.findOne({dabbawalaId: req.params.id}, function(err, menu){
+    if(err){
+      console.log(err);
+    }
+    else{
+      if(menu == null){
+        var menu = new Menu;
+        menu.dabbawalaId = req.params.id;
+        menu.dayArray.push({date: req.body.date,
+            lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
+            dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}
+        });
+
+        menu.save(function(err, menu){
+          if(err){
+            console.log(err);
+          }
+          else{
+            res.json(menu);
+          }
+        });
+      }
+      else{
+        menu.update({$push: {dayArray: {date: req.body.date, 
+            lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
+            dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}}}}, function(err){
+            if(err){
+              console.log(err);
+            }
+            else
+            {
+              res.json(menu);
+            }
+        });
+      }
+    }
+  });
 };
 
 exports.logout = function(req, res){

@@ -113,11 +113,10 @@ var DabbawalaSchema = mongoose.Schema({
 //Menu Collection
 var MenuSchema = mongoose.Schema({
   dabbawalaId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Dabbawala'
   },
   dayArray: [{
-    day: {
       date: Date,
 
       lunch: {
@@ -129,7 +128,6 @@ var MenuSchema = mongoose.Schema({
         veg: [String],
         nonVeg: [String]
       }
-    }
   }]
 });
 
@@ -139,7 +137,7 @@ var ItemSchema = mongoose.Schema({
     itemName: String,
     dabbawala: [{
       dabbawalaId: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'Dabbawala'
       },
       itemCount: {

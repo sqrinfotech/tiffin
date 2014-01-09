@@ -102,7 +102,7 @@ app.get('/dabbawalas/addDailyMenu',dabbawalas.addDailyMenu);
 app.get('/dabbawalas/:id/editfullprofile',dabbawalas.editFullProfile);
 app.get('/dabbawalas/:id/updateDailyMenu',dabbawalas.editDailyMenu);
 app.post('/dabbawalas/:id/updateTiffinDetails', dabbawalas.updateTiffinDetails);
-app.post('/dabbawalas/newDailyMenu', dabbawalas.newDailyMenu);
+app.post('/dabbawalas/:id/newDailyMenu', dabbawalas.newDailyMenu);
 app.put('/dabbawalas/:id/updateProfile',dabbawalas.updateProfile);
 app.put('/dabbawalas/:id/updateDailyMenu',dabbawalas.updateDailyMenu);
 
