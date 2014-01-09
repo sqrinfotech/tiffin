@@ -1,0 +1,114 @@
+extends ../layout
+
+block content
+  .container
+    center
+        h3 Edit Full Profile
+      form.well.form-horizontal(action='/dabbawalas/#{dabbawala._id}/updateProfile', method='post')
+        h4 Personal Details
+        .form-group
+          label.col-sm-3.control-label(for='name') Name :
+          .col-sm-7
+            input#name.form-control(type='text',name='name', value='#{dabbawala.name}')
+
+        .form-group
+          label.col-sm-3.control-label(for='username') Username :
+          .col-sm-7
+            input#username.form-control(type='text',name='username', value='#{dabbawala.username}')
+
+        .form-group
+          label.col-sm-3.control-label(for='password') Password :
+          .col-sm-7
+            input#password.form-control(type='password',name='password')
+
+        .form-group
+          label.col-sm-3.control-label(for='cpassword') Confirm Password :
+          .col-sm-7
+            input#cpassword.form-control(type='password',name='cpassword')
+
+        .form-group
+          label.col-sm-3.control-label(for='email') Email ID :
+          .col-sm-7
+            input#email.form-control(type='email',name='email', value='#{dabbawala.email}')
+
+        .form-group
+          label.col-sm-3.control-label(for='contact') Contact Number :
+          .col-sm-7
+            input#contact.form-control(type='text',name='contactNumber', value='#{dabbawala.contactNumber}')
+
+        .form-group
+          label.col-sm-3.control-label(for='address') Address :
+          .col-sm-7
+            input#address.form-control(type='text',name='address', value='#{dabbawala.address}')
+
+        .form-group
+          label.col-sm-3.control-label(for='location') City :
+          .col-sm-7
+            input#location.form-control(type='text',name='city', value='#{dabbawala.city}')
+
+        .form-group
+          label.col-sm-3.control-label(for='state') State :
+          .col-sm-7
+            input#state.form-control(type='text',name='state', value='#{dabbawala.state}')
+
+        .form-group
+          label.col-sm-3.control-label(for='zipCode') Zip Code :
+          .col-sm-7
+            input#zipCode.form-control(type='text',name='zipCode', value='#{dabbawala.zipCode}')
+
+        h4 Additional Details
+        .form-group
+          label.col-sm-3.control-label(for='area') Area where you can provide tiffin :
+          .col-sm-7
+            input#area.form-control(type='text',name='area',value='#{dabbawala.distributionAreas}')
+
+        .form-group
+          label.col-sm-3.control-label(for='category_veg') Category of food you are providing :
+          .col-sm-3
+            input#category_veg(type='checkbox', name='category_veg')
+            | Vegetarian
+          .col-sm-3
+            input#category_nonveg(type='checkbox', name='category_nonveg')
+            | Non-Vegetarian
+
+        .form-group
+          label.col-sm-3.control-label(for='orderType') Types of order you are excepting :
+          .col-sm-3
+            input#order_type_daily(type='checkbox', name='order_type_daily')
+            | Daily
+          .col-sm-3
+            input#order_type_weekly(type='checkbox', name='order_type_weekly')
+            | Weekly
+          .col-sm-3
+            input#order_type_monthly(type='checkbox', name='order_type_monthly')
+            | Monthly
+
+        .form-group
+          .col-sm-3
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_daily_veg.form-control(type='text',name='price_daily_veg', value='#{dabbawala.price.daily.veg}')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_weekly_veg.form-control(type='text',name='price_weekly_veg', value='#{dabbawala.price.weekly.veg}')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_monthly_veg.form-control(type='text',name='price_monthly_veg',value='#{dabbawala.price.monthly.veg}')
+        .form-group    
+          .col-sm-3
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_daily_nonveg.form-control(type='text',name='price_daily_nonveg', value='#{dabbawala.price.daily.nonVeg}')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_weekly_nonveg.form-control(type='text',name='price_weekly_nonveg', value='#{dabbawala.price.weekly.nonVeg}')
+          .input-group.col-sm-3
+            span.input-group-addon Rs
+            input#price_monthly_nonveg.form-control(type='text',name='price_monthly_nonveg', value='#{dabbawala.price.monthly.nonVeg}')
+
+
+        .form-group
+          .col-sm-3
+          button.btn.btn-primary.col-sm-2(type='submit') Submit
+          .col-sm-1
+          button.btn.btn-primary.col-sm-2(type='button') Cancel
