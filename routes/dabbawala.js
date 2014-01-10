@@ -433,7 +433,7 @@ exports.newDailyMenu = function(req, res) {
               var count = arr[i].itemCount + 1;
               
               console.log("Item Count + 1: " + count)
-              item.update({$set: {'dabbawalas.$.itemCount': count}, 
+              item.update({'dabbawalaId': req.params.id},{$set: {'dabbawalas.$.itemCount': count}, 
                 $push: {'dabbawalas.$.date': new Date()}}, function(err, num){
                   if(err)
                     console.log(err);
