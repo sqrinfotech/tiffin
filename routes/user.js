@@ -376,7 +376,8 @@ exports.getDabbawalas = function(req, res) {
       console.log(err);
     }
     else{
-      res.json(dabbawalas);
+      console.log(dabbawalas);
+      res.render('users/dabbawalaList',{dabbawalas: dabbawalas});
     }
   });
 
@@ -391,13 +392,7 @@ exports.trial = function (req, res, next) {
 };
 
 exports.enterLocation = function(req, res){
-  User.find({},function(err,docs){
-    if (err){
-      throw err;
-    } else{
-      res.render('users/enterLocation', {records:docs});
-    };
-  });
+  res.render('users/enterLocation', {records:req.session.user});
 };
 
 String.prototype.trim = function() {

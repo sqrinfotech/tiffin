@@ -1,15 +1,24 @@
 extends ../layout
 
 block content
-  .middle
-    .container
-      .jumbotron
-        form.well.form-horizontal(action='#', method='Post')
-          .form-group
-            label.col-sm-3.control-label(for='area') Enter Area :
-            .col-sm-7
-              input#area.form-control(type='text',name='area')
-
-          .form-group
-            .col-sm-5
-            button.btn.btn-primary.col-sm-2(type='submit') Search
+  .container
+    .row
+      each user in dabbawalas 
+        .panel.panel-default
+          .panel-body.dabbawala
+            .col-sm-12
+              h3  #{user.name}
+            .col-sm-3
+              h4  #{user.address}
+            .col-sm-4
+              - if(user.category.veg)
+                h4 Veg 
+              - else
+                h4 ,Non-Veg
+            .col-sm-4
+              div
+                a.btn.btn-primary.btn-lg(href="#") Show
+            .col-sm-3
+              h4  #{user.city}
+            .col-sm-3
+              h4  Order Type
