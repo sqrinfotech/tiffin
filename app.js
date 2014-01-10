@@ -79,9 +79,9 @@ app.get('/users/:id/show',users.isLogged,users.show);
 app.get('/users/:id/delete',users.isLogged,users.delete);
 app.put('/users/:id/update',users.isLogged,users.update);
 app.get('/users/:id/logout', users.isLogged, users.logout);
-//app.get('/users/enterLocation', users.enterLocation);
+
 app.get('/users/sendLocation', users.getDabbawalas);
-//app.get('/dabbawalasList',users.dabbawalasList);
+app.get('/users/enterLocation',users.enterLocation);
 
 // ---------------------------------DABBAWALA---------------------------------------------
 app.get('/dabbawalas/register', dabbawalas.register);
