@@ -80,8 +80,9 @@ app.get('/users/:id/delete',users.isLogged,users.delete);
 app.put('/users/:id/update',users.isLogged,users.update);
 app.get('/users/:id/logout', users.isLogged, users.logout);
 
-app.get('/users/sendLocation', users.getDabbawalas);
 app.get('/users/enterLocation',users.enterLocation);
+app.get('/users/sendLocation', users.getDabbawalas);
+
 
 // ---------------------------------DABBAWALA---------------------------------------------
 app.get('/dabbawalas/register', dabbawalas.register);
@@ -101,8 +102,7 @@ app.get('/dabbawalas/login', dabbawalas.login);
 app.post('/dabbawalas/login', dabbawalas.authenticate);
 app.get('/dabbawalas/logoutButton',dabbawalas.logoutButton);
 
-// app.get('/index',dabbawalas.index);
-// app.get('/dabbawalas/:id/show',dabbawalas.show);
+//app.get('/dabbawalas/:id/show',dabbawalas.show);
 
 app.get('/dabbawalas/addTiffinDetails',dabbawalas.addTiffinDetails);
 app.get('/dabbawalas/addDailyMenu',dabbawalas.addDailyMenu);
