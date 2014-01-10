@@ -303,9 +303,7 @@ exports.authenticate = function(req, res, next) {
 
                 var count=user.signInCount+1; //done
                 user.update({$set: {signInCount: count}},function(err,user){});
-                //res.redirect('users/dabbawalaList');
-                res.redirect('/dabbawalaList');
-                //res.json(user);
+                res.redirect('/users/dabbawalaList');
           } else {
               res.json('User name or Password is incorrect!'); //change to json
           };
@@ -376,7 +374,7 @@ exports.trial = function (req, res, next) {
   res.json('this is the response');
 };
 
-exports.dabbawalaList = function(req, res){
+exports.dabbawalasList = function(req, res){
   User.find({},function(err,docs){
     if (err){
       throw err;
