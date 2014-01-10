@@ -119,6 +119,11 @@ var MenuSchema = mongoose.Schema({
   dayArray: [{
       date: Date,
 
+      breakfast: {
+        veg: [String],
+        nonVeg: [String]
+      },
+
       lunch: {
         veg: [String],
         nonVeg: [String]

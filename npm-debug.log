@@ -1,0 +1,216 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'mongo-hacker' ]
+2 info using npm@1.3.21
+3 info using node@v0.10.24
+4 verbose node symlink /usr/bin/node
+5 verbose cache add [ 'mongo-hacker', null ]
+6 verbose cache add name=undefined spec="mongo-hacker" args=["mongo-hacker",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'mongo-hacker',
+7 verbose parsed url   path: 'mongo-hacker',
+7 verbose parsed url   href: 'mongo-hacker' }
+8 silly lockFile 1933551c-mongo-hacker mongo-hacker
+9 verbose lock mongo-hacker /home/raeesaa/.npm/1933551c-mongo-hacker.lock
+10 verbose tar pack [ '/home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz',
+10 verbose tar pack   'mongo-hacker' ]
+11 verbose tarball /home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+12 verbose folder mongo-hacker
+13 info prepublish mongo-hacker@0.0.3
+14 silly lockFile 5f82b0c7-tar-mongo-hacker tar://mongo-hacker
+15 verbose lock tar://mongo-hacker /home/raeesaa/.npm/5f82b0c7-tar-mongo-hacker.lock
+16 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+17 verbose lock tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz /home/raeesaa/.npm/0232a622-3371-0-23183411150239408-tmp-tgz.lock
+18 silly lockFile 5f82b0c7-tar-mongo-hacker tar://mongo-hacker
+19 silly lockFile 5f82b0c7-tar-mongo-hacker tar://mongo-hacker
+20 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+21 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+22 verbose tar unpack /home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+23 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+24 verbose lock tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package /home/raeesaa/.npm/2740a90a-3371-0-23183411150239408-package.lock
+25 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+26 verbose lock tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz /home/raeesaa/.npm/0232a622-3371-0-23183411150239408-tmp-tgz.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 silly gunzTarPerm extractEntry package.json
+29 silly gunzTarPerm extractEntry .npmignore
+30 silly gunzTarPerm extractEntry README.md
+31 silly gunzTarPerm extractEntry base.js
+32 silly gunzTarPerm extractEntry config.js
+33 silly gunzTarPerm extractEntry Makefile
+34 silly gunzTarPerm extractEntry hacks/aggregation.js
+35 silly gunzTarPerm extractEntry hacks/color.js
+36 silly gunzTarPerm extractEntry hacks/common.js
+37 silly gunzTarPerm extractEntry hacks/find_and_modify.js
+38 silly gunzTarPerm extractEntry hacks/cmd_search.js
+39 silly gunzTarPerm extractEntry hacks/index_paranoia.js
+40 silly gunzTarPerm extractEntry hacks/old_aggregation.js
+41 silly gunzTarPerm extractEntry hacks/prompt.js
+42 silly gunzTarPerm extractEntry hacks/sh_status.js
+43 silly gunzTarPerm extractEntry hacks/show_dbs.js
+44 silly gunzTarPerm extractEntry hacks/auto_complete.js
+45 silly gunzTarPerm extractEntry hacks/uuid.js
+46 silly gunzTarPerm extractEntry hacks/api.js
+47 silly gunzTarPerm extractEntry hacks/verbose.js
+48 silly gunzTarPerm extractEntry hacks/helpers.js
+49 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+50 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+51 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+52 silly lockFile 0232a622-3371-0-23183411150239408-tmp-tgz tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/tmp.tgz
+53 verbose tar pack [ '/home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz',
+53 verbose tar pack   '/home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package' ]
+54 verbose tarball /home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+55 verbose folder /home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+56 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+57 verbose lock tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package /home/raeesaa/.npm/2740a90a-3371-0-23183411150239408-package.lock
+58 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+59 verbose lock tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz /home/raeesaa/.npm/8858a6fd-m-mongo-hacker-0-0-3-package-tgz.lock
+60 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+61 silly lockFile 2740a90a-3371-0-23183411150239408-package tar:///home/raeesaa/tmp/npm-3446-BbF4SYas/1389336123371-0.23183411150239408/package
+62 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+63 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+64 silly lockFile 58000ff1-a-npm-mongo-hacker-0-0-3-package /home/raeesaa/.npm/mongo-hacker/0.0.3/package
+65 verbose lock /home/raeesaa/.npm/mongo-hacker/0.0.3/package /home/raeesaa/.npm/58000ff1-a-npm-mongo-hacker-0-0-3-package.lock
+66 silly lockFile 58000ff1-a-npm-mongo-hacker-0-0-3-package /home/raeesaa/.npm/mongo-hacker/0.0.3/package
+67 silly lockFile 58000ff1-a-npm-mongo-hacker-0-0-3-package /home/raeesaa/.npm/mongo-hacker/0.0.3/package
+68 verbose tar unpack /home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+69 silly lockFile 49022011-a-npm-mongo-hacker-0-0-3-package tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package
+70 verbose lock tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package /home/raeesaa/.npm/49022011-a-npm-mongo-hacker-0-0-3-package.lock
+71 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+72 verbose lock tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz /home/raeesaa/.npm/8858a6fd-m-mongo-hacker-0-0-3-package-tgz.lock
+73 silly gunzTarPerm modes [ '755', '644' ]
+74 silly gunzTarPerm extractEntry package.json
+75 silly gunzTarPerm extractEntry .npmignore
+76 silly gunzTarPerm extractEntry README.md
+77 silly gunzTarPerm extractEntry base.js
+78 silly gunzTarPerm extractEntry config.js
+79 silly gunzTarPerm extractEntry Makefile
+80 silly gunzTarPerm extractEntry hacks/aggregation.js
+81 silly gunzTarPerm extractEntry hacks/color.js
+82 silly gunzTarPerm extractEntry hacks/common.js
+83 silly gunzTarPerm extractEntry hacks/find_and_modify.js
+84 silly gunzTarPerm extractEntry hacks/cmd_search.js
+85 silly gunzTarPerm extractEntry hacks/index_paranoia.js
+86 silly gunzTarPerm extractEntry hacks/old_aggregation.js
+87 silly gunzTarPerm extractEntry hacks/prompt.js
+88 silly gunzTarPerm extractEntry hacks/sh_status.js
+89 silly gunzTarPerm extractEntry hacks/show_dbs.js
+90 silly gunzTarPerm extractEntry hacks/auto_complete.js
+91 silly gunzTarPerm extractEntry hacks/uuid.js
+92 silly gunzTarPerm extractEntry hacks/api.js
+93 silly gunzTarPerm extractEntry hacks/verbose.js
+94 silly gunzTarPerm extractEntry hacks/helpers.js
+95 silly lockFile 49022011-a-npm-mongo-hacker-0-0-3-package tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package
+96 silly lockFile 49022011-a-npm-mongo-hacker-0-0-3-package tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package
+97 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+98 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+99 verbose chmod /home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz 644
+100 verbose chown /home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz [ 1000, 1000 ]
+101 silly lockFile 1933551c-mongo-hacker mongo-hacker
+102 silly lockFile 1933551c-mongo-hacker mongo-hacker
+103 silly resolved [ { name: 'mongo-hacker',
+103 silly resolved     version: '0.0.3',
+103 silly resolved     description: 'MongoDB Shell Enhancements for Hackers',
+103 silly resolved     scripts:
+103 silly resolved      { test: 'echo "Error: no test specified" && exit 1',
+103 silly resolved        install: 'make all',
+103 silly resolved        update: 'make all',
+103 silly resolved        postuninstall: 'make uninstall' },
+103 silly resolved     preferGlobal: true,
+103 silly resolved     repository:
+103 silly resolved      { type: 'git',
+103 silly resolved        url: 'git@github.com:TylerBrock/mongo-hacker.git' },
+103 silly resolved     keywords: [ 'mongodb', 'shell', 'hacks', 'tweaks' ],
+103 silly resolved     author: { name: 'Tyler Brock', email: 'tyler.brock@gmail.com' },
+103 silly resolved     homepage: 'http://tylerbrock.github.io/mongo-hacker/',
+103 silly resolved     license: 'MIT',
+103 silly resolved     bugs: { url: 'https://github.com/TylerBrock/mongo-hacker/issues' },
+103 silly resolved     readme: '# MongoDB Shell Enhancements\n\n## Warnings\n\n* These enhancements are useful to me but they don\'t make sense for everyone. Feel free to tweak to your desire and please submit pull requests.\n* Does not work in Windows (currently)\n* Does not work with shells or db servers < 2.2 (currently)\n* Updates called on existing cursors are new and experimental (see notes in API section)\n\n## Installation\n\nInstall as a global module from npm:\n\n```sh\nnpm install -g mongo-hacker\n```\n\nOr clone this repository and link mongo_hacker.js to `.mongorc.js` in your home directory:\n\n```sh\nmake\n```\n\nor (the manual way)\n\n```sh\nln -sf <mongo-hacker-dir>/mongo_hacker.js ~/.mongorc.js\n```\n\nNote: This currently only works with the v2.2+ of shell (which you can use with earlier versions of the server safely)\n\n## Enhancements\n\n### Basic UX\n\n  - Highlight querytime if verboseShell is enabled\n    - In **green** if querytime is at or below slowms\n    - In **red** if query time is above slowms\n  - IndexParanoia\n    - Automatically show information about index use -- to disable: `setIndexParanoia(false)`\n  - Default indent is 2 spaces instead of tab\n    - Customizable by setting `__indent`\n  - Verbose shell is enabled by default -- to disable: `setVerboseShell(false)`\n  - Disable notfication of "Type \'it\' for more"\n  - Custom prompt: `hostname(process-version)[rs status] db>`\n  - Always pretty print\n  - Show DBs has aligned columns and shows less significant digits (in master for Mongo 2.5/2.6)\n  - Nicer sh.status() output (remove lastmod, take up less space, colorize chunk\'s shard)\n\n#### Colorization\n\nColorized query output\n\n![Colorized Output](http://tylerbrock.github.com/mongo-hacker/screenshots/colorized_shell.png)\n\n### API Additions\n\n#### General\n\nFilter for a collection of documents:\n\n```js\ndb.collection.filter(<criteria>)\n```\n\nOne for finding a single document:\n\n```js\ndb.collection.find({ ... }).one() == db.collection.findOne({ ... })\n```\n\nSelect for selecting fields to return (projection):\n\n```js\ndb.collection.find({ ... }).select({ name: 1 })\n```\n\nReverse for descending sort by insertion order (default) or arbitrary field:\n\n```js\ndb.collection.find({ ... }).reverse()\ndb.collection.find({ ... }).reverse(\'createDate\')\n```\n\nLast for finding last inserted document (default) or document last by given field:\n\n```js\ndb.collection.find({ ... }).last()\ndb.collection.find({ ... }).last(\'createDate\')\n```\n\nUpdate, Replace, Upsert and Remove can be called on a DBQuery Object:\n\n```js\ndb.collection.find({ ... }).update({ ... })  // multi update\ndb.collection.find({ ... }).replace({ ... }) // single replacement\ndb.collection.find({ ... }).upsert({ ... })  // single upsert\ndb.collection.find({ ... }).remove()         // multi remove\n```\n\nSort, limit, and skip through multi updates and removes:\n\n```js\ndb.collection.find({ ... }).limit(7).update({ ... })\ndb.collection.find({ ... }).sort({ ... }).skip(1).limit(3).update({ ... })\ndb.collection.find({ ... }).limit(3).remove()\n```\n\n**Note**: *The performance of multi updates involving a skip or limit may be worse than those without those specifications due to there being absolutely no native support for this feature in MongoDB itself. It should be understood by the user of this software that use of this feature (by calling update on a cursor rather than a collection) is advanced and experimental. The option to do this sort of operation is purely additive to the MongoDB experience with MongoHacker and usage of it is in no way required. Furthermore, its inclusion in this enhancement does not effect the operation of updates invoked through collections and, in practice, is insanely useful.*\n\n\n#### Aggregation Framework\n\nThe aggregation framework is now fluent as well. You can use it as currently documented or via the chainable methods.\n\nCalling aggregate without an array of operations or $operations will make it a match.\n\n```js\n// matches every document\ndb.collection.aggregate()\ndb.collection.aggregate({})\n\n// matches documents where the "a" is equal to 1\ndb.collection.aggregate({a: 1})\n\n// matches documents where "a" is greater than 7\ndb.collection.aggregate({a: {$gt: 7}})\n```\n\nAdditional methods can then be chained on top of the inital match in order to make more complicated aggregations.\n\n```js\n// Match and project\ndb.collection.aggregate(<querydoc>).project(<projection>)\ndb.collection.aggregate({a: 1}).project({a: 1, _id: 0})\n\n// Match, group and sort\ndb.collection.aggregate({<match>}).group({<group>}).sort({<sort>})\ndb.test.aggregate().group({_id: \'$a\', \'sum\': {\'$sum\': 1}}).sort({sum: -1})\n```\n\n#### Helpers\n\nGeneral Shell Helpers\n  - `findCommand(\'search\')` list commands that match the search string\n\nAggregation Framework Helpers -- on collections\n  - Group and Count: `gcount(group_field, filter)`\n  - Group and Sum: `gsum(group_field, sum_field, filter)`\n  - Group and Average: `gavg(group_field, avg_field, filter)`\n\n',
+103 silly resolved     readmeFilename: 'README.md',
+103 silly resolved     _id: 'mongo-hacker@0.0.3',
+103 silly resolved     dist: { shasum: 'e9a5351bcc1d4675284c0eaef53850bbe15af934' },
+103 silly resolved     _from: 'mongo-hacker' } ]
+104 info install mongo-hacker@0.0.3 into /usr/lib
+105 info installOne mongo-hacker@0.0.3
+106 info /usr/lib/node_modules/mongo-hacker unbuild
+107 verbose tar unpack /home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+108 silly lockFile 94fe9d21-sr-lib-node-modules-mongo-hacker tar:///usr/lib/node_modules/mongo-hacker
+109 verbose lock tar:///usr/lib/node_modules/mongo-hacker /home/raeesaa/.npm/94fe9d21-sr-lib-node-modules-mongo-hacker.lock
+110 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+111 verbose lock tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz /home/raeesaa/.npm/8858a6fd-m-mongo-hacker-0-0-3-package-tgz.lock
+112 silly gunzTarPerm modes [ '755', '644' ]
+113 silly gunzTarPerm extractEntry package.json
+114 silly gunzTarPerm extractEntry .npmignore
+115 silly gunzTarPerm extractEntry README.md
+116 silly gunzTarPerm extractEntry base.js
+117 silly gunzTarPerm extractEntry config.js
+118 silly gunzTarPerm extractEntry Makefile
+119 silly gunzTarPerm extractEntry hacks/aggregation.js
+120 silly gunzTarPerm extractEntry hacks/color.js
+121 silly gunzTarPerm extractEntry hacks/common.js
+122 silly gunzTarPerm extractEntry hacks/find_and_modify.js
+123 silly gunzTarPerm extractEntry hacks/cmd_search.js
+124 silly gunzTarPerm extractEntry hacks/index_paranoia.js
+125 silly gunzTarPerm extractEntry hacks/old_aggregation.js
+126 silly gunzTarPerm extractEntry hacks/prompt.js
+127 silly gunzTarPerm extractEntry hacks/sh_status.js
+128 silly gunzTarPerm extractEntry hacks/show_dbs.js
+129 silly gunzTarPerm extractEntry hacks/auto_complete.js
+130 silly gunzTarPerm extractEntry hacks/uuid.js
+131 silly gunzTarPerm extractEntry hacks/api.js
+132 silly gunzTarPerm extractEntry hacks/verbose.js
+133 silly gunzTarPerm extractEntry hacks/helpers.js
+134 silly lockFile 94fe9d21-sr-lib-node-modules-mongo-hacker tar:///usr/lib/node_modules/mongo-hacker
+135 silly lockFile 94fe9d21-sr-lib-node-modules-mongo-hacker tar:///usr/lib/node_modules/mongo-hacker
+136 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+137 silly lockFile 8858a6fd-m-mongo-hacker-0-0-3-package-tgz tar:///home/raeesaa/.npm/mongo-hacker/0.0.3/package.tgz
+138 info preinstall mongo-hacker@0.0.3
+139 verbose readDependencies using package.json deps
+140 verbose readDependencies using package.json deps
+141 silly resolved []
+142 verbose about to build /usr/lib/node_modules/mongo-hacker
+143 info build /usr/lib/node_modules/mongo-hacker
+144 verbose linkStuff [ true, '/usr/lib/node_modules', true, '/usr/lib/node_modules' ]
+145 info linkStuff mongo-hacker@0.0.3
+146 verbose linkBins mongo-hacker@0.0.3
+147 verbose linkMans mongo-hacker@0.0.3
+148 verbose rebuildBundles mongo-hacker@0.0.3
+149 info install mongo-hacker@0.0.3
+150 verbose unsafe-perm in lifecycle false
+151 info mongo-hacker@0.0.3 Failed to exec install script
+152 info /usr/lib/node_modules/mongo-hacker unbuild
+153 info preuninstall mongo-hacker@0.0.3
+154 info uninstall mongo-hacker@0.0.3
+155 verbose true,/usr/lib/node_modules,/usr/lib/node_modules unbuild mongo-hacker@0.0.3
+156 info postuninstall mongo-hacker@0.0.3
+157 verbose unsafe-perm in lifecycle false
+158 info mongo-hacker@0.0.3 Failed to exec postuninstall script
+159 warn continuing anyway mongo-hacker@0.0.3 postuninstall: `make uninstall`
+159 warn continuing anyway Exit status 2
+160 error mongo-hacker@0.0.3 install: `make all`
+160 error Exit status 2
+161 error Failed at the mongo-hacker@0.0.3 install script.
+161 error This is most likely a problem with the mongo-hacker package,
+161 error not with npm itself.
+161 error Tell the author that this fails on your system:
+161 error     make all
+161 error You can get their info via:
+161 error     npm owner ls mongo-hacker
+161 error There is likely additional logging output above.
+162 error System Linux 3.11.0-12-generic
+163 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "mongo-hacker"
+164 error cwd /home/raeesaa/Workspace/DabbaWalaServer/tiffin
+165 error node -v v0.10.24
+166 error npm -v 1.3.21
+167 error code ELIFECYCLE
+168 verbose exit [ 1, true ]

@@ -79,6 +79,8 @@ app.get('/users/:id/show',users.isLogged,users.show);
 app.get('/users/:id/delete',users.isLogged,users.delete);
 app.put('/users/:id/update',users.isLogged,users.update);
 app.get('/users/:id/logout', users.isLogged, users.logout);
+//app.get('/users/enterLocation', users.enterLocation);
+app.get('/users/sendLocation', users.getDabbawalas);
 //app.get('/dabbawalasList',users.dabbawalasList);
 
 // ---------------------------------DABBAWALA---------------------------------------------
@@ -112,6 +114,8 @@ app.put('/dabbawalas/:id/updateProfile',dabbawalas.updateProfile);
 app.put('/dabbawalas/:id/updateDailyMenu',dabbawalas.updateDailyMenu);
 
 //app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
+
+
 
 app.get('/dabbawalas/:id/logout', dabbawalas.isLogged, dabbawalas.logout);
 

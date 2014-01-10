@@ -15,7 +15,10 @@ var validate = require('mongoose-validator').validate
   , crypto = require('crypto')
   , bcrypt = require('bcrypt')
   , Schema = mongoose.Schema
+  , dabbawalaSchema = require('../models/dabbawalaSchema.js')
   , userValidation = require('./userValidation.js'); 
+
+var Dabbawala = dabbawalaSchema.Dabbawala;
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
@@ -366,7 +369,20 @@ exports.logout = function(req, res){
   req.session.user = null;
   console.log('After logout : ' + req.session.user);
   res.redirect('/login');
-}
+};
+
+exports.getDabbawalas = function(req, res) {
+  var location = req.query.location;
+  Dabbawala.find({ distributionAreas: location.trim().toLowerCase()}, function(err, dabbawalas){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.json(dabbawalas);
+    }
+  });
+
+};
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
@@ -384,4 +400,8 @@ exports.dabbawalaList = function(req, res){
       res.render('users/dabbawalaList', {records:docs});
     };
   });
+};
+
+String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, "");
 };

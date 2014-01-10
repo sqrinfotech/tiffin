@@ -290,18 +290,22 @@ exports.editDailyMenu = function(req, res) {
 
 exports.updateTiffinDetails = function(req, res) {
   var distributionAreas = req.body.area;
-  var arr = distributionAreas.split(",");
+  var arr = distributionAreas.toLowerCase().split(",");
+  var trimmedArray = [];
 
-  console.log(arr);
-  console.log(req.body);
+  arr.forEach(function(element){
+    trimmedArray.push(element.trim());
+  });
 
-  Dabbawala.findOne(req.params.id, function(err, dabbawala){
+  console.log('Trimmed array : ' + trimmedArray);
+
+  Dabbawala.findById(req.params.id, function(err, dabbawala){
     if(err){
       console.log(err);
     }
     else{
       dabbawala.updatedAt = new Date();
-      dabbawala.distributionAreas = arr;
+      dabbawala.distributionAreas = trimmedArray;
       dabbawala.category = {veg: req.body.category_veg, nonVeg: req.body.category_nonveg},
       dabbawala.orderType = {monthly: req.body.order_type_monthly, weekly: req.body.order_type_weekly, daily: req.body.order_type_daily},
       dabbawala.price = {
@@ -322,7 +326,7 @@ exports.updateTiffinDetails = function(req, res) {
         if(err)
           console.log(err);
         else
-          //res.json(dabbawala);
+          console.log(dabbawala);
           res.render('dabbawalas/addDailyMenu', {dabbawala: dabbawala});
       });
     }
@@ -341,16 +345,20 @@ exports.updateProfile = function(req, res){
 
 exports.newDailyMenu = function(req, res) {
 
-  var lunchVeg = req.body.lunch_veg
+  var breakfastVeg = req.body.breakfast_veg
+    , breakfastNonveg = req.body.breakfast_nonveg
+    , lunchVeg = req.body.lunch_veg
     , lunchNonveg = req.body.lunch_nonveg
     , dinnerVeg = req.body.dinner_veg
     , dinnerNonveg = req.body.dinner_nonveg;
 
+  var breakfastVegArr = breakfastVeg.split(",");
+  var breakfastNonvegArr = breakfastNonveg.split(",");
   var lunchVegArr = lunchVeg.split(",");
   var lunchNonvegArr = lunchNonveg.split(",");
   var dinnerVegArr = dinnerVeg.split(",");
   var dinnerNonvegArr = dinnerNonveg.split(","); 
-  var items = lunchVegArr.concat(lunchNonvegArr, dinnerVegArr, dinnerNonvegArr);
+  var items = breakfastVegArr.concat(breakfastNonvegArr, lunchVegArr, lunchNonvegArr, dinnerVegArr, dinnerNonvegArr);
 
   console.log(items);
 
@@ -364,6 +372,7 @@ exports.newDailyMenu = function(req, res) {
         var menu = new Menu;
         menu.dabbawalaId = req.params.id;
         menu.dayArray.push({date: req.body.date,
+            breakfast: {veg: breakfastVegArr, nonVeg: breakfastNonvegArr},
             lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
             dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}
         });
@@ -379,6 +388,7 @@ exports.newDailyMenu = function(req, res) {
       }
       else{
         menu.update({$push: {dayArray: {date: req.body.date, 
+          breakfast: {veg: breakfastVegArr, nonVeg: breakfastNonvegArr},
           lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
           dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}}}}, function(err){
           if(err){
@@ -408,7 +418,6 @@ exports.newDailyMenu = function(req, res) {
             dabbawalaId: req.params.id,
             itemCount: 1,
             date: req.body.date
-            //date.push(req.body.date)
           });
 
           item.save(function(err, item){
@@ -426,8 +435,8 @@ exports.newDailyMenu = function(req, res) {
           var dabbawalaPresent = false;
           for(var i=0;i<arr.length;i++) {
 
-            console.log(arr[i].dabbawalaId);
-            console.log(req.params.id);
+           // console.log(arr[i].dabbawalaId);
+           // console.log(req.params.id);
 
             if(arr[i].dabbawalaId === req.params.id){
               //TODO: update element of array
@@ -438,12 +447,12 @@ exports.newDailyMenu = function(req, res) {
                 $push: {'dabbawalas.$.date': new Date()}}, function(err, num){
                   if(err)
                     console.log(err);
-                  else
-                    console.log(item + "\n Rows affected" + num);
+                  /*else
+                    console.log(item + "\n Rows affected" + num);*/
                 });
 
               dabbawalaPresent = true;
-              console.log('Dabbawala present just update count and push date');
+              //console.log('Dabbawala present just update count and push date');
             }
           }
           if(!dabbawalaPresent){
@@ -451,7 +460,7 @@ exports.newDailyMenu = function(req, res) {
               item.update({$push: {dabbawalas: {
                 dabbawalaId: req.params.id,
                 itemCount: 1,
-                date: req.body.date
+                date: req.body.date //check this
                 //date.push(req.body.date)
                 }}
               }, function(err){
@@ -467,7 +476,7 @@ exports.newDailyMenu = function(req, res) {
 exports.logout = function(req, res){
   req.session.dabbawala= null;
   res.redirect('/dabbawalas/login');
-}
+};
 
 function randomToken () {
   return crypto.randomBytes(48).toString('hex');
@@ -485,4 +494,8 @@ exports.logoutButton = function(req, res){
       res.render('dabbawalas/logoutButton', {records:docs});
     };
   });
+};
+
+String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, "");
 };
