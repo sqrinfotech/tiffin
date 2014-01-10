@@ -407,6 +407,7 @@ exports.newDailyMenu = function(req, res) {
           item.dabbawalas.push({
             dabbawalaId: req.params.id,
             itemCount: 1,
+            date: req.body.date
             //date.push(req.body.date)
           });
 
@@ -450,6 +451,7 @@ exports.newDailyMenu = function(req, res) {
               item.update({$push: {dabbawalas: {
                 dabbawalaId: req.params.id,
                 itemCount: 1,
+                date: req.body.date
                 //date.push(req.body.date)
                 }}
               }, function(err){
