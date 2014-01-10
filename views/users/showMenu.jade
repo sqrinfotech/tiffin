@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .container
+    each menu in menus
+     - for (i = 0; i < #{menu.dayArray.length}; i++)
+        .row
+          .col-md-4
+            h3 Breakfast
+            h4 Veg:
+            ul
+              li
+            h4 Non-veg:
+          .col-md-4
+            h3 Lunch
+            h4 Veg:
+            h4 Non-veg:
+          .col-md-4
+            h3 Dinner
+            h4 Veg:
+            h4 Non-veg:

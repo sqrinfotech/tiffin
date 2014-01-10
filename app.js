@@ -112,10 +112,9 @@ app.post('/dabbawalas/:id/updateTiffinDetails', dabbawalas.updateTiffinDetails);
 app.post('/dabbawalas/:id/newDailyMenu', dabbawalas.newDailyMenu);
 app.put('/dabbawalas/:id/updateProfile',dabbawalas.updateProfile);
 app.put('/dabbawalas/:id/updateDailyMenu',dabbawalas.updateDailyMenu);
+app.get('/dabbawalas/:id/getMenu',dabbawalas.readMenu);
 
 //app.get('/dabbawalas/:id/delete',dabbawalas.isLogged,dabbawalas.delete);
-
-
 
 app.get('/dabbawalas/:id/logout', dabbawalas.isLogged, dabbawalas.logout);
 

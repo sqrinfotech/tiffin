@@ -376,6 +376,7 @@ exports.getDabbawalas = function(req, res) {
       console.log(err);
     }
     else{
+      console.log(dabbawalas);
       res.json(dabbawalas);
     }
   });

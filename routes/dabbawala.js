@@ -360,15 +360,13 @@ exports.newDailyMenu = function(req, res) {
   var dinnerNonvegArr = dinnerNonveg.split(","); 
   var items = breakfastVegArr.concat(breakfastNonvegArr, lunchVegArr, lunchNonvegArr, dinnerVegArr, dinnerNonvegArr);
 
-  console.log(items);
-
   //Adding into menu collection
-  Menu.findOne({dabbawalaId: req.params.id}, function(err, menu){
+  Menu.find({dabbawalaId: req.params.id}, function(err, menu){
     if(err){
       console.log(err);
     }
     else{
-      if(menu == null){
+      if(menu.length == 0){
         var menu = new Menu;
         menu.dabbawalaId = req.params.id;
         menu.dayArray.push({date: req.body.date,
@@ -387,7 +385,7 @@ exports.newDailyMenu = function(req, res) {
         });
       }
       else{
-        menu.update({$push: {dayArray: {date: req.body.date, 
+        menu[0].update({$push: {dayArray: {date: req.body.date, 
           breakfast: {veg: breakfastVegArr, nonVeg: breakfastNonvegArr},
           lunch: {veg: lunchVegArr, nonVeg: lunchNonvegArr}, 
           dinner: {veg: dinnerVegArr, nonVeg: dinnerNonvegArr}}}}, function(err){
@@ -470,6 +468,17 @@ exports.newDailyMenu = function(req, res) {
         }
       }
     });
+  });
+};
+
+exports.readMenu = function(req, res){
+  Menu.find({dabbawalaId: req.params.id}, function(err, menus){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.render('users/showMenu', {menus: menus});
+    }
   });
 };
 
